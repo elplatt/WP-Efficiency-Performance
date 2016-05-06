@@ -1,5 +1,6 @@
 import sqlalchemy
 from sqlalchemy import (
+    Boolean,
     Column, 
     DateTime,
     ForeignKey,
@@ -26,7 +27,8 @@ article_project = Table(
 class Article(Base):
     __tablename__ = 'articles'
     article_id = Column(Integer, primary_key=True)
-    article_name = Column(String(256))
+    article_name = Column(String(256, collation='utf8_bin'))
+    article_namespace = Column(Integer)
     contributors = relationship(
         'Contributor', secondary=article_contributor, back_populates="articles"
     )
@@ -51,6 +53,12 @@ class Project(Base):
 class Revision(Base):
     __tablename__ = 'revisions'
     revision_id = Column(Integer, primary_key=True)
+    revision_num = Column(Integer)
     article_id = Column(Integer, ForeignKey("articles.article_id"))
     contributor_id = Column(Integer, ForeignKey("contributors.contributor_id"))
+    redirect = Column(String(256, collation='utf8_bin'))
+    minor = Column(Boolean)
+    comment = Column(String(256))
+    length_bytes = Column(Integer)
+    diff_bytes = Column(Integer)
     timestamp = Column(DateTime)
