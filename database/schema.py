@@ -32,7 +32,8 @@ article_project_names = Table(
 
 class Article(Base):
     __tablename__ = 'articles'
-    article_id = Column(Integer, primary_key=True)
+    internal_id = Column(Integer, primary_key=True)
+    article_id = Column(Integer)
     article_name = Column(String(256))
     article_namespace = Column(Integer)
     contributors = relationship(
