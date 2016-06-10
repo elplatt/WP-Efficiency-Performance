@@ -57,15 +57,17 @@ class Project(Base):
         'Article', secondary=article_project, back_populates="projects"
     )
 
-class Revision(Base):
-    __tablename__ = 'revisions'
-    revision_id = Column(Integer, primary_key=True)
-    revision_num = Column(Integer)
-    article_id = Column(Integer)
-    contributor_id = Column(Integer)
-    redirect = Column(String(256))
-    minor = Column(Boolean)
-    comment = Column(String(256))
-    length_bytes = Column(Integer)
-    diff_bytes = Column(Integer)
-    timestamp = Column(DateTime)
+def revision_table(project_name):
+    class ProjectRevision(Base):
+        __tablename__ = '%s_revisions' % project_name
+        revision_id = Column(Integer, primary_key=True)
+        revision_num = Column(Integer)
+        article_id = Column(Integer)
+        contributor_id = Column(Integer)
+        redirect = Column(String(256))
+        minor = Column(Boolean)
+        comment = Column(String(256))
+        length_bytes = Column(Integer)
+        diff_bytes = Column(Integer)
+        timestamp = Column(DateTime)
+    return ProjectRevision
