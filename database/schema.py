@@ -36,31 +36,21 @@ class Article(Base):
     article_id = Column(Integer)
     article_name = Column(String(256))
     article_namespace = Column(Integer)
-    contributors = relationship(
-        'Contributor', secondary=article_contributor, back_populates="articles"
-    )
-    projects = relationship(
-        'Project', secondary=article_project, back_populates='articles')
     
 class Contributor(Base):
     __tablename__ = 'contributors'
     contributor_id = Column(Integer, primary_key=True)
-    articles = relationship(
-        'Article', secondary=article_contributor, back_populates="contributors"
-    )
 
 class Project(Base):
     __tablename__ = 'projects'
     project_id = Column(Integer, primary_key=True)
     project_name = Column(String(256))
-    articles = relationship(
-        'Article', secondary=article_project, back_populates="projects"
-    )
 
 def revision_table(project_name):
     class ProjectRevision(Base):
         __tablename__ = '%s_revisions' % project_name
         revision_id = Column(Integer, primary_key=True)
+        article_name = Column(String(256))
         revision_num = Column(Integer)
         article_id = Column(Integer)
         contributor_id = Column(Integer)
