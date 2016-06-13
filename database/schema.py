@@ -46,7 +46,12 @@ class Project(Base):
     project_id = Column(Integer, primary_key=True)
     project_name = Column(String(256))
 
+_project_tables = {}
 def revision_table(project_name):
+    try:
+        return _project_tables[project_name]
+    except KeyError:
+        pass
     class ProjectRevision(Base):
         __tablename__ = '%s_revisions' % project_name
         revision_id = Column(Integer, primary_key=True)
@@ -60,4 +65,5 @@ def revision_table(project_name):
         length_bytes = Column(Integer)
         diff_bytes = Column(Integer)
         timestamp = Column(DateTime)
+    _project_tables[project_name] = ProjectRevision
     return ProjectRevision
