@@ -11,12 +11,6 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
-article_contributor = Table(
-    'articles_contributors', Base.metadata,
-    Column('article_id', Integer, primary_key=True),
-    Column('contributor_id', Integer, primary_key=True)
-)
-
 article_project = Table(
     'articles_projects', Base.metadata,
     Column('article_id', Integer, primary_key=True),
@@ -40,6 +34,14 @@ class Article(Base):
 class Contributor(Base):
     __tablename__ = 'contributors'
     contributor_id = Column(Integer, primary_key=True)
+
+class ArticleContributor (Base):
+    __tablename__ = 'articles_contributors'
+    row_id = Column(Integer, primary_key=True)
+    contributor_id = Column(Integer)
+    article_name = Column(String(256))
+    first_edit = Column(DateTime)
+    last_edit = Column(DateTime)
 
 class Project(Base):
     __tablename__ = 'projects'
