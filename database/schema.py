@@ -52,6 +52,18 @@ class Project(Base):
     project_id = Column(Integer, primary_key=True)
     project_name = Column(String(256))
 
+def clean_revision(datum):
+    if datum["contributor_id"] == '':
+        datum["contributor_id"] = 0
+    if datum["minor"] == '1':
+        datum["minor"] = True
+    else:
+        datum["minor"] = False
+    if datum["length_bytes"] == '':
+        datum["length_bytes"] = None
+    if datum["diff_bytes"] == '':
+        datum["diff_bytes"] = None
+
 _project_tables = {}
 def revision_table(project_name):
     try:
@@ -73,16 +85,7 @@ def revision_table(project_name):
         timestamp = Column(DateTime)
         
         def __init__(self, *args, **kwargs):
-            if kwargs["contributor_id"] == '':
-                kwargs["contributor_id"] = 0
-            if kwargs["minor"] == '1':
-                kwargs["minor"] = True
-            else:
-                kwargs["minor"] = False
-            if kwargs["length_bytes"] == '':
-                kwargs["length_bytes"] = None
-            if kwargs["diff_bytes"] == '':
-                kwargs["diff_bytes"] = None
+            clean_revision(kwargs)
             Base.__init__(self, *args, **kwargs)
     
     _project_tables[project_name] = ProjectRevision
