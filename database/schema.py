@@ -1,3 +1,7 @@
+import calendar
+import datetime
+import dateutil.parser
+import time
 import sqlalchemy
 from sqlalchemy import (
     Boolean,
@@ -67,5 +71,19 @@ def revision_table(project_name):
         length_bytes = Column(Integer)
         diff_bytes = Column(Integer)
         timestamp = Column(DateTime)
+        
+        def __init__(self, *args, **kwargs):
+            if kwargs["contributor_id"] == '':
+                kwargs["contributor_id"] = 0
+            if kwargs["minor"] == '1':
+                kwargs["minor"] = True
+            else:
+                kwargs["minor"] = False
+            if kwargs["length_bytes"] == '':
+                kwargs["length_bytes"] = None
+            if kwargs["diff_bytes"] == '':
+                kwargs["diff_bytes"] = None
+            Base.__init__(self, *args, **kwargs)
+    
     _project_tables[project_name] = ProjectRevision
     return ProjectRevision
