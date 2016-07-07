@@ -63,6 +63,10 @@ def clean_revision(datum):
         datum["length_bytes"] = None
     if datum["diff_bytes"] == '':
         datum["diff_bytes"] = None
+    if datum["deleted"] == '1':
+        datum["deleted"] = True
+    else:
+        datum["deleted"] = False
 
 _project_tables = {}
 def revision_table(project_name):
@@ -74,15 +78,18 @@ def revision_table(project_name):
         __tablename__ = '%s_revisions' % project_name
         revision_id = Column(Integer, primary_key=True)
         article_name = Column(String(256))
+        article_namespace = Column(Integer)
         revision_num = Column(Integer)
         article_id = Column(Integer)
         contributor_id = Column(Integer)
+        contributor_name = Column(String(256))
         redirect = Column(String(256))
         minor = Column(Boolean)
         comment = Column(String(256))
         length_bytes = Column(Integer)
         diff_bytes = Column(Integer)
         timestamp = Column(DateTime)
+        deleted = Column(Boolean)
         
         def __init__(self, *args, **kwargs):
             clean_revision(kwargs)
