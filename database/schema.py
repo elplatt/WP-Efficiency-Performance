@@ -76,7 +76,8 @@ def revision_table(project_name):
         pass
     class ProjectRevision(Base):
         __tablename__ = '%s_revisions' % project_name
-        revision_id = Column(Integer, primary_key=True)
+        internal_id = Column(Integer, primary_key=True)
+        revision_id = Column(Integer)
         article_name = Column(String(256))
         article_namespace = Column(Integer)
         revision_num = Column(Integer)
@@ -97,3 +98,19 @@ def revision_table(project_name):
     
     _project_tables[project_name] = ProjectRevision
     return ProjectRevision
+
+class Rating(Base):
+    __tablename__ = 'ratings'
+    internal_id = Column(Integer, primary_key=True)
+    project_name = Column(String(256))
+    project_id = Column(Integer)
+    timestamp = Column(DateTime)
+    action = Column(String(256))
+    article_name = Column(String(256))
+    old_quality = Column(String(32))
+    new_quality = Column(String(32))
+    old_importance = Column(String(32))
+    new_importance = Column(String(32))
+    new_article_name = Column(String(256))
+    old_article_url = Column(String(256))
+    new_article_url = Column(String(256))
