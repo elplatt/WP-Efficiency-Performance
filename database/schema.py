@@ -47,9 +47,8 @@ def contributor_table(project_id):
     except KeyError:
         class ContributorContributor(Base):
             __tablename__ = '%d_contributor_contributor' % project_id
-            source_id = Column(Integer)
-            target_id = Column(Integer)
-            primary_key = PrimaryKeyConstraint('source_id', 'target_id')
+            source_id = Column(Integer, primary_key=True)
+            target_id = Column(Integer, primary_key=True)
         contributor_tables[project_id] = ContributorContributor
         return ContributorContributor
 
