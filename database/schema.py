@@ -8,6 +8,7 @@ from sqlalchemy import (
     Column, 
     DateTime,
     Integer,
+    PrimaryKeyConstraint,
     String,
     Table)
 from sqlalchemy.ext.declarative import declarative_base
@@ -38,6 +39,19 @@ class Article(Base):
 class Contributor(Base):
     __tablename__ = 'contributors'
     contributor_id = Column(Integer, primary_key=True)
+
+contributor_tables = {}
+def contributor_table(project_id):
+    try:
+        return contributor_tables[project_id]
+    except KeyError:
+        class ContributorContributor(Base):
+            __tablename__ = '%d_contributor_contributor' % project_id
+            source_id = Column(Integer)
+            target_id = Column(Integer)
+            primary_key = PrimaryKeyConstraint('source_id', 'target_id')
+        contributor_tables[project_id] = ContributorContributor
+        return ContributorContributor
 
 class ArticleContributor (Base):
     __tablename__ = 'articles_contributors'
