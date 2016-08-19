@@ -126,5 +126,5 @@ class Rating(Base):
     old_importance = Column(String(32))
     new_importance = Column(String(32))
     new_article_name = Column(String(256))
-    old_article_url = Column(String(256))
-    new_article_url = Column(String(256))
+    old_article_url = Column(String(512))
+    new_article_url = Column(String(512))
