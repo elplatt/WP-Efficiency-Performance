@@ -16,13 +16,12 @@ def remove_outputs(nb):
                 cell.outputs = []
 
 if __name__ == '__main__':
-    for fname in os.listdir('.'):
-        if fname.endswith('ipynb'):
-            with io.open(fname, 'r') as f:
-                nb = read(f, 'json')
-            remove_outputs(nb)
-            base, ext = os.path.splitext(fname)
-            new_ipynb = fname
-            with io.open(new_ipynb, 'w', encoding='utf8') as f:
-                write(nb, f, 'json')
-            print "wrote %s" % new_ipynb
+    fname = sys.argv[1]
+    with io.open(fname, 'r') as f:
+        nb = read(f, 'json')
+    remove_outputs(nb)
+    base, ext = os.path.splitext(fname)
+    new_ipynb = fname
+    with io.open(new_ipynb, 'w', encoding='utf8') as f:
+        write(nb, f, 'json')
+    print "wrote %s" % new_ipynb
