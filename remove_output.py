@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Usage: python remove_output.py notebook.ipynb [ > without_output.ipynb ]
 Modified from remove_output by Minrk
