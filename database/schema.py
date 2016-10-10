@@ -40,7 +40,7 @@ article_project_names = Table(
 class WP_Page(Base):
     '''Schema for MediaWiki page table (for wikipedia dumps).'''
     __tablename__ = 'page'
-    page_id = Column(INTEGER(unsigned=True, primary_key=True))
+    page_id = Column(INTEGER(unsigned=True), primary_key=True)
     page_namespace = Column(INTEGER)
     page_title = Column(VARBINARY(255))
     page_restrictions = Column(TINYBLOB)
