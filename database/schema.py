@@ -11,6 +11,14 @@ from sqlalchemy import (
     PrimaryKeyConstraint,
     String,
     Table)
+from sqlalchemy.dialects.mysql import (
+    BIGINT,
+    DOUBLE,
+    INTEGER,
+    TINYBLOB,
+    TINYINT,
+    VARBINARY
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -29,6 +37,23 @@ article_project_names = Table(
     Column('project_name', String(256))
 )
 
+class WP_Page(Base):
+    '''Schema for MediaWiki page table (for wikipedia dumps).'''
+    __tablename__ = 'page'
+    page_id = Column(Integer(unsigned=True, primary_key=True))
+    page_namespace = Column(INTEGER)
+    page_title = Column(VARBINARY(255))
+    page_restrictions = Column(TINYBLOB)
+    page_counter = Column(BIGINT(unsigned=True))
+    page_is_redirect = Column(TINYINT(unsigned=True))
+    page_is_new = Column(TINYINT(unsigned=True))
+    page_random = Column(DOUBLE(unsigned=True))
+    page_touched = Column(VARBINARY(14))
+    page_links_updated = Column(VARBINARY(14))
+    page_latest = Column(INTEGER(unsigned=True))
+    page_len = Column(INTEGER(unsigned=True))
+    page_content_model = Column(VARBINARY(32))
+    
 class Article(Base):
     __tablename__ = 'articles'
     internal_id = Column(Integer, primary_key=True)
