@@ -3,4 +3,5 @@
 *.log
 *.log*
 config
+data
 .ipynb_checkpoints
