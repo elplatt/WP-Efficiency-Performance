@@ -37,6 +37,15 @@ article_project_names = Table(
     Column('project_name', String(256))
 )
 
+article_name_id = Table(
+    'article_name_id', Base.metadata,
+    Column('row_id', Integer, primary_key=True),
+    Column('article_name', String(256)),
+    Column('article_id', Integer()),
+    Column('from_ts', DateTime()),
+    Column('to_ts', DateTime())
+)
+
 class WP_Page(Base):
     '''Schema for MediaWiki page table (for wikipedia dumps).'''
     __tablename__ = 'page'
@@ -53,17 +62,6 @@ class WP_Page(Base):
     page_latest = Column(INTEGER(unsigned=True))
     page_len = Column(INTEGER(unsigned=True))
     page_content_model = Column(VARBINARY(32))
-    
-class Article(Base):
-    __tablename__ = 'articles'
-    internal_id = Column(Integer, primary_key=True)
-    article_id = Column(Integer)
-    article_name = Column(String(256))
-    article_namespace = Column(Integer)
-    
-class Contributor(Base):
-    __tablename__ = 'contributors'
-    contributor_id = Column(Integer, primary_key=True)
 
 contributor_tables = {}
 def contributor_table(project_id):
@@ -85,11 +83,6 @@ class ArticleContributor (Base):
     article_name = Column(String(256))
     first_edit = Column(DateTime)
     last_edit = Column(DateTime)
-
-class Project(Base):
-    __tablename__ = 'projects'
-    project_id = Column(Integer, primary_key=True)
-    project_name = Column(String(256))
 
 def clean_revision(datum):
     if datum["contributor_id"] == '':
