@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="578.57001"
-     inkscape:cy="955.13743"
+     inkscape:zoom="1"
+     inkscape:cx="458.57001"
+     inkscape:cy="464.21538"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -594,8 +594,8 @@
       <rect
          y="811.40778"
          x="397.71423"
-         height="93.888214"
-         width="196.27328"
+         height="117.88824"
+         width="194.27332"
          id="rect4586"
          style="fill:#fafa62;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
@@ -619,7 +619,12 @@
            y="885.09357"
            x="415.65009"
            sodipodi:role="line"
-           id="tspan4594">rating history</tspan></text>
+           id="tspan4594">article id to list of</tspan><tspan
+           style="font-size:17.5px"
+           y="906.96857"
+           x="415.65009"
+           sodipodi:role="line"
+           id="tspan4947">project ids</tspan></text>
     </g>
     <g
        id="g4618"
@@ -642,28 +647,6 @@
            x="272"
            id="tspan4610"
            sodipodi:role="line">✓</tspan></text>
-    </g>
-    <g
-       id="g4680"
-       transform="translate(-122,57)">
-      <circle
-         style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         id="circle4612"
-         cx="286.5"
-         cy="-31.137794"
-         r="19.5" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         x="273"
-         y="-26.637794"
-         id="text4614"
-         sodipodi:linespacing="125%"><tspan
-           sodipodi:role="line"
-           id="tspan4616"
-           x="273"
-           y="-26.637794"
-           style="font-size:30px">...</tspan></text>
     </g>
     <g
        transform="translate(127,-111)"
@@ -993,5 +976,114 @@
        inkscape:connector-curvature="3"
        inkscape:connection-start="#g4838"
        inkscape:connection-end="#g4251" />
+    <g
+       transform="translate(-118,-59)"
+       id="g4897">
+      <circle
+         style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="circle4899"
+         cx="282.5"
+         cy="84.862206"
+         r="19.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="272"
+         y="94.362206"
+         id="text4901"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4903"
+           x="272"
+           y="94.362206"
+           style="font-size:30px">✓</tspan></text>
+    </g>
+    <g
+       id="g4905"
+       transform="translate(-62,25)">
+      <circle
+         r="19.5"
+         cy="84.862206"
+         cx="282.5"
+         id="circle4907"
+         style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4909"
+         y="94.362206"
+         x="272"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:30px"
+           y="94.362206"
+           x="272"
+           id="tspan4911"
+           sodipodi:role="line">✓</tspan></text>
+    </g>
+    <g
+       id="g4913"
+       transform="translate(405.66667,29)">
+      <circle
+         r="19.5"
+         cy="84.862206"
+         cx="282.5"
+         id="circle4915"
+         style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4917"
+         y="94.362206"
+         x="272"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:30px"
+           y="94.362206"
+           x="272"
+           id="tspan4919"
+           sodipodi:role="line">✓</tspan></text>
+    </g>
+    <g
+       id="g4934">
+      <circle
+         style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="circle4923"
+         cx="278.5"
+         cy="277.86221"
+         r="19.5" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="264"
+         y="285.36221"
+         id="text4925"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4927"
+           x="264"
+           y="285.36221"
+           style="font-size:30px">...</tspan></text>
+    </g>
+    <g
+       id="g4939"
+       transform="translate(428,-6)">
+      <circle
+         r="19.5"
+         cy="277.86221"
+         cx="278.5"
+         id="circle4941"
+         style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text4943"
+         y="285.36221"
+         x="264"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-size:30px"
+           y="285.36221"
+           x="264"
+           id="tspan4945"
+           sodipodi:role="line">...</tspan></text>
+    </g>
   </g>
 </svg>
