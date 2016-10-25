@@ -41,6 +41,7 @@ article_name_id = Table(
     'article_name_id', Base.metadata,
     Column('row_id', Integer, primary_key=True),
     Column('article_name', String(256)),
+    Column('article_name_bin', VARBINARY(255)),
     Column('article_id', Integer()),
     Column('from_ts', DateTime()),
     Column('to_ts', DateTime())
@@ -139,6 +140,7 @@ class Rating(Base):
     timestamp = Column(DateTime)
     action = Column(String(256))
     article_name = Column(String(256))
+    article_name_bin = Column(VARBINARY(255))
     old_quality = Column(String(32))
     new_quality = Column(String(32))
     old_importance = Column(String(32))
