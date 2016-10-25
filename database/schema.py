@@ -141,6 +141,7 @@ class Rating(Base):
     action = Column(String(256))
     article_name = Column(String(256))
     article_name_bin = Column(VARBINARY(255))
+    talk_name_bin = Column(VARBINARY(255))
     old_quality = Column(String(32))
     new_quality = Column(String(32))
     old_importance = Column(String(32))
