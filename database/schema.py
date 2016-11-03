@@ -149,3 +149,5 @@ class Rating(Base):
     new_article_name = Column(String(256))
     old_article_url = Column(String(512))
     new_article_url = Column(String(512))
+    article_id = Column(Integer)
+    talk_id = Column(Integer)
