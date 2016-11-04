@@ -1,12 +1,15 @@
 from collections import deque
 
-def min_cut_pairwise(edges_from):
+def min_cut_pairwise(edges_from, nodes_from=[]):
     '''Return all pairwise min-cuts given a network as {source: [target]}.'''
     # Create list of all nodes
     nodes = set(edges_from.keys())
     for targets in edges_from.itervalues():
         nodes = nodes | set(targets)
     nodes = list(nodes)
+    # If no subset was specified find all mincuts
+    if len(nodes_from) == 0:
+        nodes_from = nodes
     # Calculate min-cuts
     mincuts = []
     for source in nodes:
