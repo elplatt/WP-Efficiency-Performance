@@ -1,5 +1,5 @@
 import unittest
-from min_cut import min_cut_pairwise
+from min_cut import pairwise
 
 edges_from = {
     1: [2,4,5],
@@ -24,7 +24,7 @@ class MinCutTest(unittest.TestCase):
         pass
     
     def test_return(self):
-        mincuts = sorted(min_cut_pairwise(edges_from))
+        mincuts = sorted(pairwise(edges_from))
         self.assertEqual(mincuts, true_mincuts)
 
 if __name__ == '__main__':
