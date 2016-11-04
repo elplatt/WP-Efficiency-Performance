@@ -1,1 +1,1 @@
-import min_cut.py
+import min_cut
