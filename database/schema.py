@@ -81,7 +81,7 @@ class ArticleContributor (Base):
     __tablename__ = 'articles_contributors'
     row_id = Column(Integer, primary_key=True)
     contributor_id = Column(Integer)
-    article_name = Column(String(256))
+    article_id = Column(Integer)
     first_edit = Column(DateTime)
     last_edit = Column(DateTime)
 
