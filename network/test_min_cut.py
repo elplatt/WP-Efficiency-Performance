@@ -1,5 +1,8 @@
 import unittest
-from min_cut import pairwise
+from min_cut import (
+    donic_unit_pairwise,
+    edmonds_karp_pairwise
+)
 
 edges_from = {
     1: [2,4,5],
@@ -10,21 +13,30 @@ edges_from = {
     6: [5]
 }
 # Calculations in ELP-UM-001, p103
-true_mincuts = sorted([
+true_mincuts = [
     1,0,2,2,1,
     0,0,0,0,0,
     1,2,1,1,1,
     1,1,0,2,1,
     1,1,0,1,1,
-    1,1,0,1,1])
+    1,1,0,1,1]
 
-class MinCutTest(unittest.TestCase):
+class EdmondsKarpTest(unittest.TestCase):
     
     def setUp(self):
         pass
     
     def test_return(self):
-        mincuts = sorted(pairwise(edges_from))
+        mincuts = list(edmonds_karp_pairwise(edges_from))
+        self.assertEqual(mincuts, true_mincuts)
+
+class DonicUnitTest(unittest.TestCase):
+    
+    def setUp(self):
+        pass
+    
+    def test_return(self):
+        mincuts = list(donic_unit_pairwise(edges_from))
         self.assertEqual(mincuts, true_mincuts)
 
 if __name__ == '__main__':
