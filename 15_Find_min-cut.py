@@ -21,7 +21,7 @@ log_period=10
 # <codecell>
 
 def run_min_cut(edges_from, nodes, done_q, return_q):
-    flows = network.min_cut.pairwise(edges_from, nodes)
+    flows = network.min_cut.dinic_unit_pairwise(edges_from, nodes)
     for flow in flows:
         return_q.put(flow)
     done_q.put(1)
