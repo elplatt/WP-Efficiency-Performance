@@ -30,13 +30,13 @@ class EdmondsKarpTest(unittest.TestCase):
         mincuts = list(edmonds_karp_pairwise(edges_from))
         self.assertEqual(mincuts, true_mincuts)
 
-class DonicUnitTest(unittest.TestCase):
+class DinicUnitTest(unittest.TestCase):
     
     def setUp(self):
         pass
     
     def test_return(self):
-        mincuts = list(donic_unit_pairwise(edges_from))
+        mincuts = list(dinic_unit_pairwise(edges_from))
         self.assertEqual(mincuts, true_mincuts)
 
 if __name__ == '__main__':

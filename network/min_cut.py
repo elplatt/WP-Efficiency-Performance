@@ -61,7 +61,7 @@ def edmonds_karp_pairwise(edges_from, nodes_from=[]):
                     break
             yield(flow)
 
-def donic_unit_pairwise(edges_from, nodes_from=[]):
+def dinic_unit_pairwise(edges_from, nodes_from=[]):
     '''Find all pairwise flows using Donic's algorithm with advance-retreat.'''
     
     # Create list of all nodes
