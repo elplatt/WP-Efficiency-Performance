@@ -1,6 +1,6 @@
 import unittest
 from min_cut import (
-    donic_unit_pairwise,
+    dinic_unit_pairwise,
     edmonds_karp_pairwise
 )
 
