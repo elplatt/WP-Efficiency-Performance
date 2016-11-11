@@ -12,11 +12,11 @@ import network
 
 # <codecell>
 
-exp_name = "15_find_min_cut"
-edges_file = "archive/08_create_coeditor/2016-09-03 20:32:32 dfbdfa1/%d-coeditor.mp"
+exp_name = "18_find_min_cut"
+edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 out_file = "flows.csv"
-num_proc = 11
-log_period=10
+num_proc = 12
+log_period=30
 
 # <codecell>
 
@@ -34,7 +34,7 @@ all_nodes = set()
 edge_count = 0
 edges_from = {}
 log.info("Loading network edges")
-with open(edges_file % 491, "rb") as f:
+with open(edges_file % 1355, "rb") as f:
     unpacker = msgpack.Unpacker(f)
     for o in unpacker:
         edge_count += len(o[1])
