@@ -34,7 +34,7 @@ all_nodes = set()
 edge_count = 0
 edges_from = {}
 log.info("Loading network edges")
-with open(edges_file % 1355, "rb") as f:
+with open(edges_file % 989, "rb") as f:
     unpacker = msgpack.Unpacker(f)
     for o in unpacker:
         edge_count += len(o[1])
