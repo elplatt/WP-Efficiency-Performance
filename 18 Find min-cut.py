@@ -6,6 +6,7 @@
 from multiprocessing import Process, Queue
 from Queue import Empty
 import time
+import traceback
 import msgpack
 import logbook
 import network
@@ -20,10 +21,14 @@ log_period=30
 
 # <codecell>
 
-def run_min_cut(edges_from, nodes, done_q, return_q):
+def run_min_cut(edges_from, nodes, done_q, return_q, error_q):
     flows = network.min_cut.dinic_unit_pairwise(edges_from, nodes)
-    for flow in flows:
-        return_q.put(flow)
+    try:
+        for flow in flows:
+            return_q.put(flow)
+    except:
+        error_q.put(sys.exc_info())
+        return
     done_q.put(1)
 
 # <codecell>
@@ -48,9 +53,11 @@ step = 1 + len(all_nodes) / num_proc
 pair_count = len(all_nodes) * (len(all_nodes) - 1)
 return_q = Queue()
 done_q = Queue()
+error_q = Queue()
 workers = []
 for i in range(num_proc):
-    args = (edges_from, all_nodes[(i*step):step], done_q, return_q)
+    chunk = all_nodes[(i*step):((i+1)*step)]
+    args = (edges_from, chunk, done_q, return_q, error_q)
     p = Process(target=run_min_cut, args=args)
     p.start()
     workers.append(p)
@@ -59,18 +66,36 @@ try:
     with open(exp.get_filename(out_file), "wb") as out:
         complete = 0
         last_time = time.time()
-        while done_q.qsize() < num_proc:
+        proc_complete = 0
+        while proc_complete < num_proc:
+            # Check for errors in worker threads
+            if (error_q.qsize() > 0):
+                try:
+                    e = error_q.get(False, 1)
+                    exc_type, exc_obj, exc_tb = e
+                    traceback.print_tb(exc_tb)
+                    sys.exit()
+                except Empty:
+                    pass
+            # Check for completed threads
+            if (done_q.qsize() > 0):
+                try:
+                    done_q.get(False, 1)
+                    proc_complete += 1
+                except Empty:
+                    pass
             try:
                 timeout = 1 # second
                 flow = return_q.get(False, timeout)
                 out.write("%d\n" % flow)
                 complete += 1
             except Empty:
-                time.sleep(1)
                 pass
             if time.time() - last_time > log_period:
                 out.flush()
-                log.info("  %d of %d pairs and %d of %d cores complete" % (complete, pair_count, done_q.qsize(), num_proc))
+                log.info(
+                    "  %d of %d pairs and %d of %d cores complete"
+                    % (complete, pair_count, proc_complete, num_proc))
                 last_time = time.time()
 except KeyboardInterrupt:
     [p.terminate() for p in workers]
