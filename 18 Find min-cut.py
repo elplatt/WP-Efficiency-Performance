@@ -94,6 +94,7 @@ try:
                 complete += 1
             except Empty:
                 log.info("  Return queue empty")
+                time.sleep(1)
             if time.time() - last_time > log_period:
                 out.flush()
                 log.info(
