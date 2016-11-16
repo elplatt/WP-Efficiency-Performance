@@ -15,7 +15,7 @@ import network
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 out_file = "flows.csv"
-num_proc = 12
+num_proc = 11
 log_period=30
 
 # <codecell>
@@ -66,11 +66,11 @@ try:
                 out.write("%d\n" % flow)
                 complete += 1
             except Empty:
-                time.sleep(10)
+                time.sleep(1)
                 pass
             if time.time() - last_time > log_period:
                 out.flush()
-                log.info("  %d of %d complete" % (complete, pair_count))
+                log.info("  %d of %d pairs and %d of %d cores complete" % (complete, pair_count, done_q.qsize(), num_proc))
                 last_time = time.time()
 except KeyboardInterrupt:
     [p.terminate() for p in workers]
