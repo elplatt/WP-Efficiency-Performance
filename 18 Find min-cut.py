@@ -55,6 +55,7 @@ return_q = Queue()
 done_q = Queue()
 error_q = Queue()
 workers = []
+log.info("Sending %d nodes to each worker" % step)
 for i in range(num_proc):
     chunk = all_nodes[(i*step):((i+1)*step)]
     args = (edges_from, chunk, done_q, return_q, error_q)
@@ -72,8 +73,10 @@ try:
             if (error_q.qsize() > 0):
                 try:
                     e = error_q.get(False, 1)
+                    log.error("Caught error from child: %s" % e)
                     exc_type, exc_obj, exc_tb = e
                     traceback.print_tb(exc_tb)
+                    [p.terminate() for p in workers]
                     sys.exit()
                 except Empty:
                     pass
@@ -90,7 +93,7 @@ try:
                 out.write("%d\n" % flow)
                 complete += 1
             except Empty:
-                pass
+                log.info("  Return queue empty")
             if time.time() - last_time > log_period:
                 out.flush()
                 log.info(
