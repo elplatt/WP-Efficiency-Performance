@@ -237,11 +237,10 @@ def dinic_unit_pairwise(edges_from, nodes_from=[]):
             
             yield (s, t, flow)
 
-def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[], sleep=0, log=None):
+def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[]):
     '''Find sample of pairwise flows using Dinic's algorithm with advance-retreat.'''
     
     # Create list of all nodes
-    log.write("Creating list of nodes")
     nodes = set(edges_from.keys())
     for targets in edges_from.itervalues():
         nodes = nodes | set(targets)
@@ -251,15 +250,9 @@ def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[], sleep=0, log
         nodes_from = nodes
         
     # Calculate min-cuts from nodes_from
-    log.write("Calculating from flows")
-    count = 1
     for s in nodes_from:
-        log.write("  from: %d" % s)
-        if sleep > 0 and count % sleep == 0:
-            time.sleep(0.1)
         sample_nodes = random.sample(nodes, per_node)
         for t in sample_nodes:
-            low.write("    to: %d" % t)
             if s == t:
                 continue
             
@@ -370,18 +363,12 @@ def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[], sleep=0, log
                 # No more blocking flows
                 pass
             
-            count += 1
             yield (s, t, flow)
 
     # Calculate min-cuts to nodes_from
-    log.write("Calculating to flows")
     for t in nodes_from:
-        log.write("  to: %d" % t)
         sample_nodes = random.sample(nodes, per_node)
-        if sleep > 0 and count % sleep == 0:
-            time.sleep(0.1)
         for s in sample_nodes:
-            log.write("    from: %d" % s)
             if s == t:
                 continue
             
@@ -492,7 +479,6 @@ def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[], sleep=0, log
                 # No more blocking flows
                 pass
             
-            count += 1
             yield (s, t, flow)
 
 def dinic_unit(s, t, edges_from, benchmark=None):
