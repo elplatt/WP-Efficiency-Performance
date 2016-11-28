@@ -235,9 +235,9 @@ def dinic_unit_pairwise(edges_from, nodes_from=[]):
                 # No more blocking flows
                 pass
             
-            yield flow
+            yield (s, t, flow)
 
-def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[]):
+def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[], sleep=0):
     '''Find sample of pairwise flows using Dinic's algorithm with advance-retreat.'''
     
     # Create list of all nodes
@@ -250,7 +250,10 @@ def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[]):
         nodes_from = nodes
         
     # Calculate min-cuts from nodes_from
+    count = 1
     for s in nodes_from:
+        if sleep > 0 and count % sleep == 0:
+            time.sleep(0.1)
         sample_nodes = random.sample(nodes, per_node)
         for t in sample_nodes:
             if s == t:
@@ -363,11 +366,14 @@ def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[]):
                 # No more blocking flows
                 pass
             
-            yield flow
+            count += 1
+            yield (s, t, flow)
 
     # Calculate min-cuts to nodes_from
     for t in nodes_from:
         sample_nodes = random.sample(nodes, per_node)
+        if sleep > 0 and count % sleep == 0:
+            time.sleep(0.1)
         for s in sample_nodes:
             if s == t:
                 continue
@@ -479,7 +485,8 @@ def dinic_unit_pairwise_sample(edges_from, per_node, nodes_from=[]):
                 # No more blocking flows
                 pass
             
-            yield flow
+            count += 1
+            yield (s, t, flow)
 
 def dinic_unit(s, t, edges_from, benchmark=None):
     '''Find s-t min-cut using Dinic's algorithm with advance-retreat.'''
