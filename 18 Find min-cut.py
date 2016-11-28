@@ -15,14 +15,14 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-out_file = "flows.csv"
-num_proc = 11
+out_file = "%d-flows.csv"
+num_proc = 12
 log_period=30
 
 # <codecell>
 
 def run_min_cut(edges_from, nodes, done_q, return_q, error_q):
-    flows = network.min_cut.dinic_unit_pairwise(edges_from, nodes)
+    flows = network.min_cut.dinic_unit_pairwise_sample(edges_from, 10, nodes, sleep=15000)
     try:
         for flow in flows:
             return_q.put(flow)
@@ -40,7 +40,8 @@ log.info("Loading network edges")
 all_nodes = set()
 edge_count = 0
 edges_from = {}
-with open(edges_file % 23, "rb") as f:
+project_id = 989
+with open(edges_file % project_id, "rb") as f:
     unpacker = msgpack.Unpacker(f)
     for o in unpacker:
         edge_count += len(o[1])
@@ -67,10 +68,11 @@ for i in range(num_proc):
     
 log.info("Waiting for results")
 try:
-    with open(exp.get_filename(out_file), "wb") as out:
+    with open(exp.get_filename(out_file % project_id), "wb") as out:
         complete = 0
         last_time = time.time()
         proc_complete = 0
+        out.write("source,sink,flow\n")
         while proc_complete < num_proc and complete < pair_count:
             # Check for errors in worker threads
             if (error_q.qsize() > 0):
@@ -93,7 +95,7 @@ try:
             try:
                 while 1:
                     flow = return_q.get(False)
-                    out.write("%d\n" % flow)
+                    out.write("%d,%d,%d\n" % flow)
                     complete += 1
             except Empty:
                 log.info("  Return queue empty")
