@@ -17,6 +17,7 @@ exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 out_file = "%d-flows.csv"
 num_proc = 12
+samples_per_node = 10
 log_period=30
 
 # <codecell>
@@ -54,6 +55,7 @@ log.info("  Loaded %d nodes and %d edges" % (len(all_nodes), edge_count))
 log.info("Starting %d processes" % num_proc)
 step = 1 + len(all_nodes) / num_proc
 pair_count = len(all_nodes) * (len(all_nodes) - 1)
+result_count = len(all_nodes) * 2 * samples_per_node
 return_q = Queue()
 done_q = Queue()
 error_q = Queue()
@@ -73,7 +75,8 @@ try:
         last_time = time.time()
         proc_complete = 0
         out.write("source,sink,flow\n")
-        while proc_complete < num_proc and complete < pair_count:
+        
+        while proc_complete < num_proc and complete < result_count:
             # Check for errors in worker threads
             if (error_q.qsize() > 0):
                 try:
