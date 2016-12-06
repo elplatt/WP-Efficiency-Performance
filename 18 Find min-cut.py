@@ -73,7 +73,7 @@ try:
         last_complete = 0
         proc_complete = 0
         timeout = 1 # second
-        while proc_complete < num_proc and not return_q.empty():
+        while proc_complete < num_proc or not return_q.empty():
             # Check for completed threads
             if (done_q.qsize() > 0):
                 try:
