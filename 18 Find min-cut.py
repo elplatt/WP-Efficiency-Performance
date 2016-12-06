@@ -96,6 +96,9 @@ try:
         log.info(
             "  %d of %d pairs and %d of %d cores complete"
             % (complete, pair_count, proc_complete, num_proc))
+    log.info("Terminating workers")
+    [p.terminate() for p in workers]
+    log.info("Done")
 except KeyboardInterrupt:
     log.info("Keyboard interrupt")
     log.info(
