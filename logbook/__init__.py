@@ -31,10 +31,13 @@ class Experiment(object):
                 raise
         return path
         
-    def get_logger(self, level=logging.INFO):
+    def get_logger(self, level=logging.INFO, name=None):
         path = self.get_output_dir()
-        log_file = os.path.join(path, "%s.log" % self.exp_name)
-        log = logging.getLogger(self.exp_name)
+        logger_name = self.exp_name
+        if name is not None:
+            logger_name += "." + "name"
+        log_file = os.path.join(path, "%s.log" % logger_name)
+        log = logging.getLogger(logger_name)
         log.propagate = False
         log.handlers = []
         handler = logging.FileHandler(log_file, "w")
