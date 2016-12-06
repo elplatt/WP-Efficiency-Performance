@@ -35,7 +35,7 @@ class Experiment(object):
         path = self.get_output_dir()
         logger_name = self.exp_name
         if name is not None:
-            logger_name += "." + "name"
+            logger_name += "." + name
         log_file = os.path.join(path, "%s.log" % logger_name)
         log = logging.getLogger(logger_name)
         log.propagate = False
