@@ -22,17 +22,21 @@ project_id = 23
 
 # In[2]:
 
-def run_min_cut(edges_from, nodes, done_q, return_q, log):
+def run_min_cut(edges_from, nodes, done_q, return_q, log=None):
     flows = network.min_cut.dinic_unit_pairwise(edges_from, nodes)
     try:
         for i, flow in enumerate(flows):
-            log.info("Putting flow %d to return_q" % i)
+            if log is not None:
+                log.info("Putting flow %d to return_q" % i)
             return_q.put(flow)
     except:
-        log.error(sys.exc_info())
-    log.info("Done with work, putting to done_q")
+        if log is not None:
+            log.error(sys.exc_info())
+    if log is not None:
+        log.info("Done with work, putting to done_q")
     done_q.put(1)
-    log.info("Finished")
+    if log is not None:
+        log.info("Finished")
 
 
 # In[4]:
@@ -60,7 +64,8 @@ done_q = Queue()
 workers = []
 for i in range(num_proc):
     chunk = all_nodes[(i*step):((i+1)*step)]
-    core_log = exp.get_logger(name=str(i))
+    #core_log = exp.get_logger(name=str(i))
+    core_log = None
     args = (edges_from, chunk, done_q, return_q, core_log)
     p = Process(target=run_min_cut, args=args)
     p.start()
@@ -87,7 +92,7 @@ try:
                 complete += 1
             except Empty:
                 pass
-            if complete % 10000 == 0 and complete != last_complete:
+            if complete % 25000 == 0 and complete != last_complete:
                 last_complete = complete
                 out.flush()
                 log.info(
