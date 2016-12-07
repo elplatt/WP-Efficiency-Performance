@@ -58,7 +58,7 @@ with open(edges_file % project_id, "rb") as f:
 log.info("  Loaded %d nodes and %d edges" % (len(all_nodes), edge_count))
 log.info("Starting %d processes" % num_proc)
 all_nodes = list(all_nodes)
-sample_pairs = network.sample_pairs(all_nodes, sample_count)
+sample_pairs = network.min_cut.sample_pairs(all_nodes, sample_count)
 pair_count = len(sample_pairs)
 step = 1 + pair_count / num_proc
 return_q = Queue()
