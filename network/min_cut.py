@@ -111,14 +111,9 @@ def edmonds_karp(source, sink, edges_from):
             break
     return flow
 
-def sample_pairs(edges_from, N):
+def sample_pairs(nodes, N):
     '''Create N sinks and N sources for each node and match randomly.
-    Return (sources, sinks).'''
-    # Create list of all nodes
-    nodes = set(edges_from.keys())
-    for targets in edges_from.itervalues():
-        nodes = nodes | set(targets)
-    nodes = list(nodes)
+    Return list of (source, sink) pairs.'''
     if len(nodes) < 2:
         # No non-trivial pairs
         raise ValueError
@@ -134,136 +129,132 @@ def sample_pairs(edges_from, N):
             while sources[j] == sinks[i] or sources[i] == sinks[j]:
                 j = random.randint(0, M - 1)
             sinks[i], sinks[j] = sinks[j], sinks[i]
-    return sources, sinks
+    return zip(sources, sinks)
 
-def dinic_unit_pairwise(edges_from, nodes_from=[], nodes_to=[]):
+def dinic_unit_pairwise(edges_from, pairs=None):
     '''Find all pairwise flows using Dinic's algorithm with advance-retreat.'''
     
-    # Create list of all nodes
-    nodes = set(edges_from.keys())
-    for targets in edges_from.itervalues():
-        nodes = nodes | set(targets)
-    nodes = list(nodes)
-    # If no to/from subsets were specified use all nodes
-    if len(nodes_from) == 0:
-        nodes_from = nodes
-    if len(nodes_to) == 0:
-        nodes_to = nodes
+    if pairs is None:
+        # Create list of all nodes
+        nodes = set(edges_from.keys())
+        for targets in edges_from.itervalues():
+            nodes = nodes | set(targets)
+        nodes = list(nodes)
+        pairs = pair_iter(nodes)
         
     # Calculate min-cuts
-    for s in nodes_from:
-        for t in nodes:
-            if s == t:
-                continue
-            
-            # Deep copy a residual graph, initialize flows
-            residual = dict([(k,set(v)) for k, v in edges_from.iteritems()])
-            # Remembering paths is handy for debugging but inefficient
-            # flow_paths = []
-            flow = 0
-            
-            # Loop through blocking flows
-            try:
+    for s, t in pairs:
+        if s == t:
+            continue
+        
+        # Deep copy a residual graph, initialize flows
+        residual = dict([(k,set(v)) for k, v in edges_from.iteritems()])
+        # Remembering paths is handy for debugging but inefficient
+        # flow_paths = []
+        flow = 0
+        
+        # Loop through blocking flows
+        try:
+            while 1:
+        
+                # Calculate level graph from residual using BFS
+                level_edges = {}
+                level = set([s])
+                l_visited = set()
+                next_level = set()
                 while 1:
-            
-                    # Calculate level graph from residual using BFS
-                    level_edges = {}
-                    level = set([s])
-                    l_visited = set()
-                    next_level = set()
-                    while 1:
+                    try:
+                        node = level.pop()
+                    except KeyError:
+                        # We're finished with a level
+                        if t in next_level:
+                            # Higher levels won't flow back to t in the level graph
+                            for node in next_level:
+                                level_edges[node] = set()
+                            break
+                        if len(next_level) == 0:
+                            # Out of edges but we haven't found t -> disconnected
+                            raise StopIteration
+                        # Move to the next level of the level graph
+                        level = next_level
+                        next_level = set()
+                        continue
+                    l_visited.add(node)
+                    neighbors = residual[node]
+                    # Exclude edges in current level or lower
+                    unvisited_neighbors =  neighbors - l_visited
+                    new_neighbors = unvisited_neighbors - level
+                    level_edges[node] = new_neighbors
+                    next_level |= new_neighbors
+                
+                # Find flow using DFS until level graph is disconnected
+                path = []
+                to_visit = {}
+                node = s
+                while 1:
+                    # Find current node's neighbors
+                    try:
+                        neighbors = level_edges[node]
+                    except KeyError:
+                        # Node is already deleted
+                        # Remove the edge to deleted node
                         try:
-                            node = level.pop()
+                            parent = path.pop()
                         except KeyError:
-                            # We're finished with a level
-                            if t in next_level:
-                                # Higher levels won't flow back to t in the level graph
-                                for node in next_level:
-                                    level_edges[node] = set()
-                                break
-                            if len(next_level) == 0:
-                                # Out of edges but we haven't found t -> disconnected
-                                raise StopIteration
-                            # Move to the next level of the level graph
-                            level = next_level
-                            next_level = set()
-                            continue
-                        l_visited.add(node)
-                        neighbors = residual[node]
-                        # Exclude edges in current level or lower
-                        unvisited_neighbors =  neighbors - l_visited
-                        new_neighbors = unvisited_neighbors - level
-                        level_edges[node] = new_neighbors
-                        next_level |= new_neighbors
-                    
-                    # Find flow using DFS until level graph is disconnected
-                    path = []
-                    to_visit = {}
-                    node = s
-                    while 1:
-                        # Find current node's neighbors
+                            # Source disconnected, blocking flow complete
+                            break
+                        level_edges[parent].remove(node)
+                        # Retreat one level
+                        node = parent
+                        to_visit_current = to_visit[node]
+                        continue
+                    to_visit_current = set(neighbors)
+                    to_visit[node] = to_visit_current
+                    if t in neighbors:
+                        # We've found a path, record it
+                        path.append(node)
+                        flow += 1
+                        # Remembering flows is useful for debugging but inefficient
+                        #path.append(t)
+                        #flow_paths.append(path)
+                        edges = zip(path, path[1:] + [t])
+                        # Remove path edges from level and residual
+                        for edge_s, edge_t in edges:
+                            level_edges[edge_s].remove(edge_t)
+                            residual[edge_s].remove(edge_t)
+                        # Now find another flow in the augmented level graph
+                        path = []
+                        to_visit = {}
+                        node = s
+                        continue
+                    # Advance a level
+                    try:
+                        path.append(node)
+                        node = to_visit_current.pop()
+                    except KeyError:
+                        # We've reached a dead end
+                        # Remove the node
+                        del level_edges[node]
                         try:
-                            neighbors = level_edges[node]
-                        except KeyError:
-                            # Node is already deleted
-                            # Remove the edge to deleted node
-                            try:
-                                parent = path.pop()
-                            except KeyError:
-                                # Source disconnected, blocking flow complete
-                                break
-                            level_edges[parent].remove(node)
-                            # Retreat one level
-                            node = parent
-                            to_visit_current = to_visit[node]
-                            continue
-                        to_visit_current = set(neighbors)
-                        to_visit[node] = to_visit_current
-                        if t in neighbors:
-                            # We've found a path, record it
-                            path.append(node)
-                            flow += 1
-                            # Remembering flows is useful for debugging but inefficient
-                            #path.append(t)
-                            #flow_paths.append(path)
-                            edges = zip(path, path[1:] + [t])
-                            # Remove path edges from level and residual
-                            for edge_s, edge_t in edges:
-                                level_edges[edge_s].remove(edge_t)
-                                residual[edge_s].remove(edge_t)
-                            # Now find another flow in the augmented level graph
-                            path = []
-                            to_visit = {}
-                            node = s
-                            continue
-                        # Advance a level
-                        try:
-                            path.append(node)
-                            node = to_visit_current.pop()
-                        except KeyError:
-                            # We've reached a dead end
-                            # Remove the node
-                            del level_edges[node]
-                            try:
-                                path.pop()
-                                parent = path.pop()
-                            except IndexError:
-                                # Source disconnected, blocking flow complete
-                                break
-                            # Remove edge to deleted node
-                            level_edges[parent].remove(node)
-                            # Retreat one level
-                            node = parent
-                            to_visit_current = to_visit[node]
-                            continue
-                    
-                    # Level graph is disconnected, recompute from residual
-                    
-            except StopIteration:
-                # No more blocking flows
-                pass
-            
-            yield (s, t, flow)
+                            path.pop()
+                            parent = path.pop()
+                        except IndexError:
+                            # Source disconnected, blocking flow complete
+                            break
+                        # Remove edge to deleted node
+                        level_edges[parent].remove(node)
+                        # Retreat one level
+                        node = parent
+                        to_visit_current = to_visit[node]
+                        continue
+                
+                # Level graph is disconnected, recompute from residual
+                
+        except StopIteration:
+            # No more blocking flows
+            pass
+        
+        yield (s, t, flow)
 
 def dinic_unit(s, t, edges_from, benchmark=None):
     '''Find s-t min-cut using Dinic's algorithm with advance-retreat.'''
@@ -389,3 +380,8 @@ def dinic_unit(s, t, edges_from, benchmark=None):
             benchmark["phases"] += phases
     
     return flow
+
+def pair_iter(nodes):
+    for i in xrange(len(nodes)):
+        for j in xrange(len(nodes)):
+            yield((nodes[i], nodes[j]))
