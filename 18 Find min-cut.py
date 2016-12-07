@@ -18,12 +18,13 @@ out_file = "%d-flows.csv"
 num_proc = 12
 log_period = 30
 project_id = 23
+sample_count = 16
 
 
 # In[2]:
 
-def run_min_cut(edges_from, nodes, done_q, return_q, log=None):
-    flows = network.min_cut.dinic_unit_pairwise(edges_from, nodes)
+def run_min_cut(edges_from, pairs, done_q, return_q, log=None):
+    flows = network.min_cut.dinic_unit_pairwise(edges_from, pairs)
     try:
         for i, flow in enumerate(flows):
             if log is not None:
@@ -57,13 +58,14 @@ with open(edges_file % project_id, "rb") as f:
 log.info("  Loaded %d nodes and %d edges" % (len(all_nodes), edge_count))
 log.info("Starting %d processes" % num_proc)
 all_nodes = list(all_nodes)
-step = 1 + len(all_nodes) / num_proc
-pair_count = len(all_nodes) * (len(all_nodes) - 1)
+sample_pairs = network.sample_pairs(all_nodes, sample_count)
+pair_count = len(sample_pairs)
+step = 1 + pair_count / num_proc
 return_q = Queue()
 done_q = Queue()
 workers = []
 for i in range(num_proc):
-    chunk = all_nodes[(i*step):((i+1)*step)]
+    chunk = sample_pairs[(i*step):((i+1)*step)]
     #core_log = exp.get_logger(name=str(i))
     core_log = None
     args = (edges_from, chunk, done_q, return_q, core_log)
