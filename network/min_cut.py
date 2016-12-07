@@ -1,4 +1,5 @@
 from collections import Counter, deque
+import random
 import time
 
 def edmonds_karp_pairwise(edges_from, nodes_from=[]):
@@ -109,6 +110,31 @@ def edmonds_karp(source, sink, edges_from):
             # Sink not found in BFS tree, no more paths
             break
     return flow
+
+def sample_pairs(edges_from, N):
+    '''Create N sinks and N sources for each node and match randomly.
+    Return (sources, sinks).'''
+    # Create list of all nodes
+    nodes = set(edges_from.keys())
+    for targets in edges_from.itervalues():
+        nodes = nodes | set(targets)
+    nodes = list(nodes)
+    if len(nodes) < 2:
+        # No non-trivial pairs
+        raise ValueError
+    # Create random source and sink lists with each node N times
+    sources = nodes * N
+    sinks = nodes * N
+    random.shuffle(sinks)
+    M = len(sources)
+    # Remove any self loops
+    for i in range(M):
+        if sources[i] == sinks[i]:
+            j = random.randint(0, M - 1)
+            while sources[j] == sinks[i] or sources[i] == sinks[j]:
+                j = random.randint(0, M - 1)
+            sinks[i], sinks[j] = sinks[j], sinks[i]
+    return sources, sinks
 
 def dinic_unit_pairwise(edges_from, nodes_from=[], nodes_to=[]):
     '''Find all pairwise flows using Dinic's algorithm with advance-retreat.'''
