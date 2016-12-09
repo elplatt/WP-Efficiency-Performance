@@ -17,7 +17,7 @@ edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor
 num_proc = 12
 log_period = 30
 sample_count = 16
-to_sample = False
+to_sample = True
 log_workers = False
 if to_sample:
     out_file = "%d-flows-sampled.csv"
