@@ -14,27 +14,37 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 11
+num_proc = 10
 log_period = 30
 sample_count = 16
-to_sample = True
+to_sample = False
 log_workers = False
 if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
     out_file = "%d-flows.csv"
-projects_to_run = [1000]
+projects_to_run = [42]
 
 
 # In[2]:
 
 def run_min_cut(edges_from, pairs, done_q, return_q, log=None):
     flows = network.min_cut.dinic_unit_pairwise(edges_from, pairs)
+    sleep_every_sec = 30
+    sleep_every_count = 1000
+    first_sleep = time.time()
+    last_sleep = first_sleep
     try:
         for i, flow in enumerate(flows):
             if log is not None:
                 log.info("Putting flow %d to return_q" % i)
             return_q.put(flow)
+            if i % sleep_every_count == 0 and i > 0:
+                now = time.time()
+                count_per_sec = i / float(now - last_sleep)
+                sleep_every_count = sleep_every_sec * count_per_sec
+                last_sleep = now
+                time.sleep(0.1)
     except:
         if log is not None:
             log.error(sys.exc_info())
