@@ -384,4 +384,6 @@ def dinic_unit(s, t, edges_from, benchmark=None):
 def pair_iter(nodes):
     for i in xrange(len(nodes)):
         for j in xrange(len(nodes)):
+            if i == j:
+                continue
             yield((nodes[i], nodes[j]))
