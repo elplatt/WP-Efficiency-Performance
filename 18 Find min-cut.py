@@ -100,7 +100,8 @@ try:
         with open(exp.get_filename(out_file % project_id), "wb") as out:
             out.write("source_id,sink_id,flow\n")
             complete = 0
-            last_processed = 0
+            log_interval = 25000
+            next_log = log_interval
             proc_complete = 0
             timeout = 1 # second
             while proc_complete < num_proc or not return_q.empty():
@@ -119,8 +120,8 @@ try:
                 except Empty:
                     pass
                 processed = complete + return_q.qsize()
-                if processed % 25000 == 0 and processed != last_processed:
-                    last_processed = processed
+                if processed > next_log:
+                    next_log += log_interval
                     out.flush()
                     log.info(
                         "  %d:%d of %d pairs and %d of %d cores complete"
