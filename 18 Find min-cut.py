@@ -14,7 +14,7 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 10
+num_proc = 12
 log_period = 30
 sample_count = 16
 to_sample = False
@@ -99,7 +99,7 @@ try:
         with open(exp.get_filename(out_file % project_id), "wb") as out:
             out.write("source_id,sink_id,flow\n")
             complete = 0
-            last_complete = 0
+            last_processed = 0
             proc_complete = 0
             timeout = 1 # second
             while proc_complete < num_proc or not return_q.empty():
@@ -116,12 +116,13 @@ try:
                     complete += 1
                 except Empty:
                     pass
-                if complete % 25000 == 0 and complete != last_complete:
-                    last_complete = complete
+                processed = complete + return_q.qsize()
+                if processed % 25000 == 0 and processed != last_processed:
+                    last_processed = processed
                     out.flush()
                     log.info(
-                        "  %d of %d pairs and %d of %d cores complete"
-                        % (complete, pair_count, proc_complete, num_proc))
+                        "  %d:%d of %d pairs and %d of %d cores complete"
+                        % (complete, processed, pair_count, proc_complete, num_proc))
             log.info(
                 "  %d of %d pairs and %d of %d cores complete"
                 % (complete, pair_count, proc_complete, num_proc))
