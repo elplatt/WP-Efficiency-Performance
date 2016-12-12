@@ -28,7 +28,7 @@ projects_to_run = [42]
 
 # In[2]:
 
-def run_min_cut(edges_from, pairs, done_q, return_q, log=None):
+def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
     flows = network.min_cut.dinic_unit_pairwise(edges_from, pairs)
     sleep_every_sec = 30
     sleep_every_count = 1000
@@ -50,7 +50,7 @@ def run_min_cut(edges_from, pairs, done_q, return_q, log=None):
             log.error(sys.exc_info())
     if log is not None:
         log.info("Done with work, putting to done_q")
-    done_q.put(1)
+    done_q.put( (proc_id, i+1) )
     if log is not None:
         log.info("Finished")
 
@@ -87,11 +87,12 @@ try:
         workers = []
         for i in range(num_proc):
             chunk = sample_pairs[(i*step):((i+1)*step)]
+            log.info("  Sending %d pairs to worker %d" % (len(chunk), i))
             if log_workers:
                 core_log = exp.get_logger(name=str(i))
             else:
                 core_log = None
-            args = (edges_from, chunk, done_q, return_q, core_log)
+            args = (i, edges_from, chunk, done_q, return_q, core_log)
             p = Process(target=run_min_cut, args=args)
             p.start()
             workers.append(p)
@@ -106,7 +107,8 @@ try:
                 # Check for completed threads
                 if (done_q.qsize() > 0):
                     try:
-                        done_q.get(True, timeout)
+                        worker_status = done_q.get(True, timeout)
+                        log.info("  Process %d complete after %d pairs" % worker_status)
                         proc_complete += 1
                     except Empty:
                         pass
