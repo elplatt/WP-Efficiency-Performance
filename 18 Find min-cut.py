@@ -19,11 +19,12 @@ log_period = 30
 sample_count = 16
 to_sample = False
 log_workers = False
+queue_size = 25000
 if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
     out_file = "%d-flows.csv"
-projects_to_run = [42]
+projects_to_run = [1000]
 
 
 # In[2]:
@@ -82,7 +83,7 @@ try:
             sample_pairs = list(network.min_cut.pair_iter(all_nodes))
         pair_count = len(sample_pairs)
         step = 1 + pair_count / num_proc
-        return_q = Queue()
+        return_q = Queue(queue_size)
         done_q = Queue()
         workers = []
         for i in range(num_proc):
