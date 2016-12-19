@@ -14,13 +14,12 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 10
-log_period = 30
+num_proc = 12
+log_period = 20
 sample_count = 16
-to_sample = False
+to_sample = True
 log_workers = True
-queue_size = 0
-worker_buf_size = 500
+queue_size = 500
 if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
@@ -33,6 +32,8 @@ projects_to_run = [1000]
 def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
     flows = network.min_cut.dinic_unit_pairwise(edges_from, pairs)
     return_buffer = []
+    last = time.time()
+    buf_size = 1
     try:
         for i, flow in enumerate(flows):
             if log is not None:
@@ -40,17 +41,19 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
             # Buffer results to prevent locking up the queue
             return_buffer.append(flow)
             # Clear buffer
-            if len(return_buffer) > worker_buf_size:
+            if len(return_buffer) >= buf_size:
                 if log is not None:
                     log.info("Proc %d flushing after %d pairs" % (proc_id, i))
+                next_worker_buf_size = worker_buf_size
                 for flow in return_buffer:
                     try:
                         return_q.put(flow, False)
                     except Full:
-                        # Give the queue time to flush
-                        time.sleep(1)
                         return_q.put(flow)
+                        # Flush less often
+                        next_buf_size = buf_size * 2
                 return_buffer = []
+                buf_size = next_buf_size
     except:
         if log is not None:
             log.error(sys.exc_info())
@@ -119,11 +122,13 @@ try:
                     except Empty:
                         pass
                 try:
-                    flow = return_q.get(True, timeout)
+                    flow = return_q.get(True, log_period)
                     out.write("%d,%d,%d\n" % flow)
                     complete += 1
                 except Empty:
-                    pass
+                    log.info(
+                        "  %d:%d of %d pairs and %d of %d cores complete (waiting)"
+                        % (complete, processed, pair_count, proc_complete, num_proc))                    
                 processed = complete + return_q.qsize()
                 if processed > next_log:
                     next_log += queue_size
