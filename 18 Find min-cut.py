@@ -111,6 +111,7 @@ try:
             out.write("source_id,sink_id,flow\n")
             complete = 0
             next_log = queue_size
+            last_log_time = time.time()
             proc_complete = 0
             timeout = 1 # second
             while proc_complete < num_proc or not return_q.empty():
@@ -131,7 +132,9 @@ try:
                         "  %d:%d of %d pairs and %d of %d cores complete (waiting)"
                         % (complete, processed, pair_count, proc_complete, num_proc))                    
                 processed = complete + return_q.qsize()
-                if processed > next_log:
+                now = time.time()
+                if processed > next_log or now - last_log_time > log_period:
+                    last_log_time = now
                     next_log += queue_size
                     out.flush()
                     log.info(
