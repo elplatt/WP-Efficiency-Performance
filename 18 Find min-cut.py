@@ -3,6 +3,7 @@
 
 from multiprocessing import Process, Queue
 from Queue import Empty, Full
+import sys
 import time
 import traceback
 import msgpack
@@ -14,7 +15,7 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 12
+num_proc = 10
 log_period = 20
 sample_count = 16
 to_sample = True
