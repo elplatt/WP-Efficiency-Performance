@@ -45,7 +45,7 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
             if len(return_buffer) >= buf_size:
                 if log is not None:
                     log.info("Proc %d flushing after %d pairs" % (proc_id, i))
-                next_worker_buf_size = worker_buf_size
+                next_buf_size = buf_size
                 for flow in return_buffer:
                     try:
                         return_q.put(flow, False)
