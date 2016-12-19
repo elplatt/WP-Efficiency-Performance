@@ -18,9 +18,9 @@ num_proc = 10
 log_period = 30
 sample_count = 16
 to_sample = False
-log_workers = False
+log_workers = True
 queue_size = 0
-worker_buf_size = 5000
+worker_buf_size = 500
 if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
@@ -35,12 +35,12 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
     return_buffer = []
     try:
         for i, flow in enumerate(flows):
-            if log is not None:
-                log.info("Putting flow %d to return_q" % i)
             # Buffer results to prevent locking up the queue
             return_buffer.append(flow)
             # Clear buffer
             if len(return_buffer) > worker_buf_size:
+                if log is not None:
+                    log.info("Proc %d flushing after %d pairs" % (proc_id, i))
                 for flow in return_buffer:
                     try:
                         return_q.put(flow, False)
