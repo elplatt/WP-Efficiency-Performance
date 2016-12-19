@@ -35,6 +35,8 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
     return_buffer = []
     try:
         for i, flow in enumerate(flows):
+            if log is not None:
+                log.info("Proc %d calculating flow %d" % (proc_id, i))
             # Buffer results to prevent locking up the queue
             return_buffer.append(flow)
             # Clear buffer
