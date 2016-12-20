@@ -25,7 +25,7 @@ if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
     out_file = "%d-flows.csv"
-projects_to_run = [1602]
+projects_to_run = [1510]
 
 
 # In[2]:
