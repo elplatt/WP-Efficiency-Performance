@@ -116,6 +116,7 @@ try:
             last_log_time = time.time()
             proc_complete = 0
             timeout = 1 # second
+            processed = 0
             while proc_complete < num_proc or not return_q.empty():
                 # Check for completed threads
                 if (done_q.qsize() > 0):
@@ -158,6 +159,13 @@ except KeyboardInterrupt:
             "  %d of %d pairs and %d of %d cores complete"
             % (complete, pair_count, proc_complete, num_proc))
 
+    log.info("Terminating workers")
+    [p.terminate() for p in workers]
+except:
+    log.info("Error: %s", sys.exc_info())
+    log.info(
+            "  %d of %d pairs and %d of %d cores complete"
+            % (complete, pair_count, proc_complete, num_proc))
     log.info("Terminating workers")
     [p.terminate() for p in workers]
 
