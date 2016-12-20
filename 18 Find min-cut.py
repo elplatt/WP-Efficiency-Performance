@@ -25,7 +25,7 @@ if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
     out_file = "%d-flows.csv"
-projects_to_run = [584]
+projects_to_run = [1602]
 
 
 # In[2]:
@@ -140,7 +140,7 @@ try:
                     next_log += queue_size
                     log.info("    Return_q timeout")
                     log.info(
-                        "  %d:%d of %d pairs and %d of %d cores complete (get timeout)"
+                        "  %d:%d of %d pairs and %d/%d cores complete (get timeout)"
                         % (complete, processed, pair_count, proc_complete, num_proc))                    
                 processed = complete + return_q.qsize()
                 now = time.time()
@@ -149,7 +149,7 @@ try:
                     next_log += queue_size
                     out.flush()
                     log.info(
-                        "  %d:%d of %d pairs and %d of %d cores complete"
+                        "  %d:%d of %d pairs and %d/%d cores complete"
                         % (complete, processed, pair_count, proc_complete, num_proc))
             log.info(
                 "  %d of %d pairs and %d of %d cores complete"
