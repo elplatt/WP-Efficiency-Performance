@@ -16,7 +16,7 @@ import network
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 num_proc = 10
-log_period = 20
+log_period = 5
 sample_count = 16
 to_sample = True
 log_workers = True
@@ -41,6 +41,8 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
                 log.info("Proc %d calculating flow %d" % (proc_id, i))
             # Buffer results to prevent locking up the queue
             return_buffer.append(flow)
+            if log is not None:
+                log.info("Proc %d finished flow %d" % (proc_id, i))
             # Clear buffer
             if len(return_buffer) >= buf_size:
                 if log is not None:
@@ -124,10 +126,13 @@ try:
                     except Empty:
                         pass
                 try:
+                    log.info("  Getting from return_q")
                     flow = return_q.get(True, log_period)
+                    log.info("    Success!")
                     out.write("%d,%d,%d\n" % flow)
                     complete += 1
                 except Empty:
+                    log.info("    Return_q timeout")
                     log.info(
                         "  %d:%d of %d pairs and %d of %d cores complete (waiting)"
                         % (complete, processed, pair_count, proc_complete, num_proc))                    
