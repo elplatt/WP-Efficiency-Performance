@@ -15,9 +15,9 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 10
+num_proc = 1
 log_period = 5
-sample_count = 16
+sample_count = 1
 to_sample = True
 log_workers = True
 queue_size = 500
