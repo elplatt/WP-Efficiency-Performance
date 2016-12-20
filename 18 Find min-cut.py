@@ -36,9 +36,9 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
     last = time.time()
     buf_size = 1
     try:
+        if log is not None:
+            log.info("Proc %d calculating flow %d" % (proc_id, 0))
         for i, flow in enumerate(flows):
-            if log is not None:
-                log.info("Proc %d calculating flow %d" % (proc_id, i))
             # Buffer results to prevent locking up the queue
             return_buffer.append(flow)
             if log is not None:
@@ -57,6 +57,8 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
                         next_buf_size = buf_size * 2
                 return_buffer = []
                 buf_size = next_buf_size
+            if log is not None:
+                log.info("Proc %d calculating flow %d" % (proc_id, i+1))
     except:
         if log is not None:
             log.error(sys.exc_info())
@@ -133,9 +135,12 @@ try:
                     out.write("%d,%d,%d\n" % flow)
                     complete += 1
                 except Empty:
+                    now = time.time()
+                    last_log_time = now
+                    next_log += queue_size
                     log.info("    Return_q timeout")
                     log.info(
-                        "  %d:%d of %d pairs and %d of %d cores complete (waiting)"
+                        "  %d:%d of %d pairs and %d of %d cores complete (get timeout)"
                         % (complete, processed, pair_count, proc_complete, num_proc))                    
                 processed = complete + return_q.qsize()
                 now = time.time()
