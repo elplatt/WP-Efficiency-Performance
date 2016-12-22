@@ -93,7 +93,7 @@ try:
         log.info("Starting %d processes" % num_proc)
         all_nodes = list(all_nodes)
         if to_sample:
-            sample_pairs = network.min_cut.sample_pairs(edges_from, sample_count)
+            sample_pairs = network.min_cut.sample_pairs(edges_from, sample_per_strata, sample_strata)
         else:
             sample_pairs = list(network.min_cut.pair_iter(all_nodes))
         pair_count = len(sample_pairs)
