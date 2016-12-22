@@ -15,17 +15,19 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 1
+num_proc = 12
 log_period = 5
 sample_count = 1
 to_sample = True
+sample_strata = 10
+sample_per_strata = 500
 log_workers = True
 queue_size = 500
 if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
     out_file = "%d-flows.csv"
-projects_to_run = [1510]
+projects_to_run = [863]
 
 
 # In[2]:
@@ -91,7 +93,7 @@ try:
         log.info("Starting %d processes" % num_proc)
         all_nodes = list(all_nodes)
         if to_sample:
-            sample_pairs = network.min_cut.sample_pairs(all_nodes, sample_count)
+            sample_pairs = network.min_cut.sample_pairs(edges_from, sample_count)
         else:
             sample_pairs = list(network.min_cut.pair_iter(all_nodes))
         pair_count = len(sample_pairs)
