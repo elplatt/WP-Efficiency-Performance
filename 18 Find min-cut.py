@@ -16,12 +16,12 @@ import network
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 num_proc = 12
-log_period = 5
+log_period = 30
 sample_count = 1
 to_sample = True
 sample_strata = 10
 sample_per_strata = 500
-log_workers = True
+log_workers = False
 queue_size = 500
 if to_sample:
     out_file = "%d-flows-sampled.csv"
@@ -132,9 +132,7 @@ try:
                     except Empty:
                         pass
                 try:
-                    log.info("  Getting from return_q")
                     flow = return_q.get(True, log_period)
-                    log.info("    Success!")
                     out.write("%d,%d,%d\n" % flow)
                     complete += 1
                 except Empty:
