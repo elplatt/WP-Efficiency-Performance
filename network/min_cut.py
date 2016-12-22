@@ -1,4 +1,5 @@
 from collections import Counter, deque
+import math
 import random
 import time
 
@@ -130,6 +131,45 @@ def sample_pairs(nodes, N):
                 j = random.randint(0, M - 1)
             sinks[i], sinks[j] = sinks[j], sinks[i]
     return zip(sources, sinks)
+
+def sample_pairs_stratified(edges_from, N, M):
+    '''Create N pairs in each of M degree strata.'''
+    # Create list of all nodes and degrees
+    node_out_degree = {}
+    node_in_degree = {}
+    for source, targets in edges_from.iteritems():
+        node_out_degree[source] = len(targets)
+        node_in_degree[source] = node_in_degree.get(source, 0)
+        for target in targets:
+            node_out_degree[target] = node_out_degree.get(target, 0)
+            try:
+                node_in_degree[target] += 1
+            except KeyError:
+                node_in_degree[target] = 1
+    # Sort nodes by degrees
+    nodes_in = sorted(node_in_degree.items(), key=lambda x: x[1])
+    nodes_out = sorted(node_out_degree.items(), key=lambda x: x[1])
+    # Sample within strata
+    count = len(nodes_in)
+    step = float(count) / float(M)
+    source_samples = list()
+    target_samples = list()
+    for m in range(M):
+        first = int(round(m*step))
+        last = int(round((m+1.0)*step))
+        target_samples.extend([x[0] for x in random.sample(nodes_in[first:last], N)])
+        source_samples.extend([x[0] for x in random.sample(nodes_out[first:last], N)])
+    # Shuffle targets to create random pairings
+    random.shuffle(target_samples)
+    M = len(source_samples)
+    # Remove any self loops
+    for i in range(M):
+        if source_samples[i] == target_samples[i]:
+            j = random.randint(0, M - 1)
+            while source_samples[j] == target_samples[i] or source_samples[i] == target_samples[j]:
+                j = random.randint(0, M - 1)
+            target_samples[i], target_samples[j] = target_samples[j], target_samples[i]
+    return zip(source_samples, target_samples)
 
 def dinic_unit_pairwise(edges_from, pairs=None):
     '''Find all pairwise flows using Dinic's algorithm with advance-retreat.'''
