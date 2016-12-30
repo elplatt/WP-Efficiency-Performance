@@ -157,8 +157,9 @@ def sample_pairs_stratified(edges_from, N, M):
     for m in range(M):
         first = int(round(m*step))
         last = int(round((m+1.0)*step))
-        target_samples.extend([x[0] for x in random.sample(nodes_in[first:last], N)])
-        source_samples.extend([x[0] for x in random.sample(nodes_out[first:last], N)])
+        for i in range(N):
+            target_samples.append(random.choice(nodes_in[first:last])[0])
+            source_samples.append(random.choice(nodes_out[first:last])[0])
     # Shuffle targets to create random pairings
     random.shuffle(target_samples)
     M = len(source_samples)
