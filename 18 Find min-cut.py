@@ -11,7 +11,7 @@ import logbook
 import network
 
 
-# In[1]:
+# In[2]:
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
@@ -38,7 +38,7 @@ projects_to_run = [
 ]
 
 
-# In[2]:
+# In[3]:
 
 def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
     flows = network.min_cut.dinic_unit_pairwise(edges_from, pairs)
