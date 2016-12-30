@@ -18,12 +18,15 @@ edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor
 num_proc = 12
 log_period = 30
 sample_count = 1
-to_sample = False
+
+# Whether we should sample
+to_sample = True
 # Use stratified sampling if sample_strata > 0
 sample_strata = 10
 sample_per_strata = 1000
 # Otherwise sample sample_per_node sources/sinks per node
 sample_per_node = 16
+
 log_workers = False
 queue_size = 500
 if to_sample:
