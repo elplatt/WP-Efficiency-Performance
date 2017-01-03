@@ -1,6 +1,7 @@
 
 # In[1]:
 
+import math
 from multiprocessing import Process, Queue
 from Queue import Empty, Full
 import sys
@@ -15,7 +16,7 @@ import network
 
 exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
-num_proc = 12
+num_proc = 10
 log_period = 30
 sample_count = 1
 
@@ -109,12 +110,12 @@ try:
         else:
             sample_pairs = list(network.min_cut.pair_iter(all_nodes))
         pair_count = len(sample_pairs)
-        step = 1 + pair_count / num_proc
+        step = pair_count / float(num_proc)
         return_q = Queue(queue_size)
         done_q = Queue()
         workers = []
         for i in range(num_proc):
-            chunk = sample_pairs[(i*step):((i+1)*step)]
+            chunk = sample_pairs[int(math.floor(i*step)):int(math.floor(i+1)*step)]
             log.info("  Sending %d pairs to worker %d" % (len(chunk), i))
             if log_workers:
                 core_log = exp.get_logger(name=str(i))
