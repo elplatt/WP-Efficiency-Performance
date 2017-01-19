@@ -170,12 +170,12 @@ try:
                         % (complete, processed, pair_count, proc_complete, num_proc))
             log.info(
                 "  %d of %d pairs and %d of %d cores complete"
-                % (complete, len(all_nodes), proc_complete, num_proc))
+                % (complete, pair_count, proc_complete, num_proc))
             log.info("Return queue size: %d" % return_q.qsize())
         log.info("Terminating workers")
         [p.terminate() for p in workers]
         time_file.write("%d,%d,%f\n" % (
-            project_id, pair_count, time.time() - project_start))
+            project_id, len(all_nodes), time.time() - project_start))
         time_file.flush()
     log.info("Done with all projects")
 except KeyboardInterrupt:
