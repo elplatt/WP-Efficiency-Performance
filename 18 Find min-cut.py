@@ -18,7 +18,7 @@ exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 num_proc = 10
 log_period = 30
-sample_count = 10
+sample_count = 50
 
 # Whether we should sample
 to_sample = True
@@ -36,7 +36,7 @@ else:
     out_file = "%d-flows.csv"
 time_file = "time.csv"
 projects_to_run = [
-23,284,1470,1526,989,914,1495,215,1382,832,454,1002,1534,7,922,863
+23,284,1470,1526,989,914,1495,215,1382,832,454,1002,1534,7,922,863,1019,1317,535,595,97,226,764,207,542,584
 ]
 
 
@@ -170,7 +170,7 @@ try:
                         % (complete, processed, pair_count, proc_complete, num_proc))
             log.info(
                 "  %d of %d pairs and %d of %d cores complete"
-                % (complete, pair_count, proc_complete, num_proc))
+                % (complete, len(all_nodes), proc_complete, num_proc))
             log.info("Return queue size: %d" % return_q.qsize())
         log.info("Terminating workers")
         [p.terminate() for p in workers]
