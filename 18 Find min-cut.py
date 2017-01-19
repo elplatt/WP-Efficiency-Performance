@@ -18,7 +18,7 @@ exp_name = "18_find_min_cut"
 edges_file = "archive/17_create_coeditor/2016-11-05 16:42:01 8850183/%d-coeditor.mp"
 num_proc = 10
 log_period = 30
-sample_count = 1
+sample_count = 10
 
 # Whether we should sample
 to_sample = False
@@ -34,8 +34,9 @@ if to_sample:
     out_file = "%d-flows-sampled.csv"
 else:
     out_file = "%d-flows.csv"
+time_file = "time.csv"
 projects_to_run = [
-42,543,1449,540,1162,1716,447,887,2139,280
+23,284,1470,1526,989,914,1495,215,1382,832,454,1002,1534,7,922,863]
 ]
 
 
@@ -85,10 +86,13 @@ def run_min_cut(proc_id, edges_from, pairs, done_q, return_q, log=None):
 exp = logbook.Experiment(exp_name)
 log = exp.get_logger()
 try:
+    time_file = open(exp.get_filename(time_file), 'wb')
+    time_file.write("project_id,pairs,seconds\n")
     for pcount, project_id in enumerate(projects_to_run):
         all_nodes = set()
         edge_count = 0
         edges_from = {}
+        project_start = time.time()
         log.info("Loading network edges for project %d (%d/%d)" %
                  (project_id, pcount, len(projects_to_run)))
         with open(edges_file % project_id, "rb") as f:
@@ -170,6 +174,8 @@ try:
             log.info("Return queue size: %d" % return_q.qsize())
         log.info("Terminating workers")
         [p.terminate() for p in workers]
+        time_file.write("%d,%d,%f\n" % (
+            project_id, pair_count, time.time() - project_start))
     log.info("Done with all projects")
 except KeyboardInterrupt:
     log.info("Keyboard interrupt")
@@ -186,6 +192,8 @@ except:
             % (complete, pair_count, proc_complete, num_proc))
     log.info("Terminating workers")
     [p.terminate() for p in workers]
+finally:
+    time_file.close()
 
 
 # In[ ]:
