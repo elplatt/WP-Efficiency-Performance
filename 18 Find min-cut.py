@@ -21,7 +21,7 @@ log_period = 30
 sample_count = 10
 
 # Whether we should sample
-to_sample = False
+to_sample = True
 # Use stratified sampling if sample_strata > 0
 sample_strata = 10
 sample_per_strata = 1
@@ -176,6 +176,7 @@ try:
         [p.terminate() for p in workers]
         time_file.write("%d,%d,%f\n" % (
             project_id, pair_count, time.time() - project_start))
+        time_file.flush()
     log.info("Done with all projects")
 except KeyboardInterrupt:
     log.info("Keyboard interrupt")
