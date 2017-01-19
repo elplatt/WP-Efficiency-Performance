@@ -24,7 +24,7 @@ sample_count = 50
 to_sample = True
 # Use stratified sampling if sample_strata > 0
 sample_strata = 10
-sample_per_strata = 1
+sample_per_strata = 10
 # Otherwise sample sample_per_node sources/sinks per node
 sample_per_node = 16
 
