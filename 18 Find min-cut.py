@@ -1,4 +1,6 @@
 
+# coding: utf-8
+
 # In[1]:
 
 import math
@@ -21,10 +23,10 @@ log_period = 30
 sample_count = 50
 
 # Whether we should sample
-to_sample = True
+to_sample = False
 # Use stratified sampling if sample_strata > 0
-sample_strata = 10
-sample_per_strata = 10
+sample_strata = 0
+sample_per_strata = 100
 # Otherwise sample sample_per_node sources/sinks per node
 sample_per_node = 16
 
@@ -36,7 +38,7 @@ else:
     out_file = "%d-flows.csv"
 time_file = "time.csv"
 projects_to_run = [
-23,284,1470,1526,989,914,1495,215,1382,832,454,1002,1534,7,922,863,1019,1317,535,595,97,226,764,207,542,584
+    "42,543,1449,540,1162,1716,447,887,2139,280"
 ]
 
 
