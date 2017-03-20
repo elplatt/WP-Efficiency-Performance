@@ -135,13 +135,12 @@ def revision_table(project_name):
 class Rating(Base):
     __tablename__ = 'ratings'
     internal_id = Column(Integer, primary_key=True)
-    project_name = Column(String(256))
+    project_name = Column(VARBINARY(255))
     project_id = Column(Integer)
-    timestamp = Column(DateTime)
+    timestamp = Column(Integer)
     action = Column(String(256))
-    article_name = Column(String(256))
-    article_name_bin = Column(VARBINARY(255))
-    talk_name_bin = Column(VARBINARY(255))
+    article_name = Column(VARBINARY(255))
+    talk_name = Column(VARBINARY(255))
     old_quality = Column(String(32))
     new_quality = Column(String(32))
     old_importance = Column(String(32))
