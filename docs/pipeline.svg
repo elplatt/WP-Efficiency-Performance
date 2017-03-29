@@ -10,12 +10,15 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="11.699471in"
-   height="18.958086in"
+   height="19.380308in"
    viewBox="0 0 990 0"
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="pipeline.svg">
+   sodipodi:docname="pipeline.svg"
+   inkscape:export-filename="/Users/elplatt/UMSI/WP-Efficiency-Performance/docs/pipeline.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -25,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="-44.285926"
-     inkscape:cy="13.039094"
+     inkscape:zoom="0.5"
+     inkscape:cx="552.51665"
+     inkscape:cy="600.95407"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -783,7 +786,7 @@
            y="361.36221"
            x="1001"
            id="tspan4707"
-           sodipodi:role="line">~</tspan></text>
+           sodipodi:role="line">✓</tspan></text>
     </g>
     <g
        transform="translate(419.66667,-49)"
@@ -1154,7 +1157,7 @@
            id="tspan5026"
            x="1001"
            y="361.36221"
-           style="font-size:30px">~</tspan></text>
+           style="font-size:30px">✓</tspan></text>
     </g>
     <g
        id="g5064"
@@ -1232,7 +1235,7 @@
            y="94.362206"
            x="272"
            id="tspan5088"
-           sodipodi:role="line">✓</tspan></text>
+           sodipodi:role="line" /></text>
     </g>
     <g
        id="g5101"
@@ -1332,7 +1335,7 @@
            id="tspan5149"
            x="272"
            y="94.362206"
-           style="font-size:30px">✓</tspan></text>
+           style="font-size:30px" /></text>
     </g>
     <g
        id="g5151"
@@ -1354,7 +1357,7 @@
            y="361.36221"
            x="1001"
            id="tspan5157"
-           sodipodi:role="line">~</tspan></text>
+           sodipodi:role="line">✓</tspan></text>
     </g>
     <g
        id="g5196"
@@ -1419,7 +1422,7 @@
            y="361.36221"
            x="1001"
            id="tspan5211"
-           sodipodi:role="line">~</tspan></text>
+           sodipodi:role="line" /></text>
     </g>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -1495,8 +1498,8 @@
       <rect
          y="585.40778"
          x="7.7142334"
-         height="93.888245"
-         width="196.27332"
+         height="131.88824"
+         width="206.27332"
          id="rect3616"
          style="fill:#fafa62;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
@@ -1510,7 +1513,7 @@
            y="615.34357"
            x="25.650085"
            id="tspan3620"
-           sodipodi:role="line">history.csv</tspan><tspan
+           sodipodi:role="line">efficiency.csv</tspan><tspan
            style="font-size:17.5px"
            y="637.21857"
            x="25.650085"
@@ -1520,7 +1523,17 @@
            y="659.09357"
            x="25.650085"
            sodipodi:role="line"
-           id="tspan3624">All page revisions</tspan></text>
+           id="tspan3624">Number of revisions</tspan><tspan
+           style="font-size:17.5px"
+           y="680.96857"
+           x="25.650085"
+           sodipodi:role="line"
+           id="tspan4427">and transitions at</tspan><tspan
+           style="font-size:17.5px"
+           y="702.84357"
+           x="25.650085"
+           sodipodi:role="line"
+           id="tspan4429">each grade level.</tspan></text>
     </g>
     <circle
        style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1528,18 +1541,24 @@
        cx="604.453"
        cy="967.02869"
        r="19.5" />
+    <circle
+       r="19.5"
+       cy="1066.5287"
+       cx="625.953"
+       id="circle4424"
+       style="fill:#e0e000;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="590.953"
-       y="971.52869"
+       y="975.52869"
        id="text3630"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan3632"
          x="590.953"
-         y="971.52869"
-         style="font-size:30px">...</tspan></text>
+         y="975.52869"
+         style="font-size:30px"
+         id="tspan4397" /></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 300.55384,921.0993 125.97045,46.16713"
@@ -1584,7 +1603,7 @@
            y="94.362206"
            x="272"
            id="tspan3646"
-           sodipodi:role="line">✓</tspan></text>
+           sodipodi:role="line" /></text>
     </g>
   </g>
 </svg>
