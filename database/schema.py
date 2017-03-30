@@ -111,18 +111,18 @@ def revision_table(project_name):
         __tablename__ = '%s_revisions' % project_name
         internal_id = Column(Integer, primary_key=True)
         revision_id = Column(Integer)
-        article_name = Column(String(256))
+        article_name = Column(VARBINARY(255))
         article_namespace = Column(Integer)
         revision_num = Column(Integer)
         article_id = Column(Integer)
         contributor_id = Column(Integer)
-        contributor_name = Column(String(256))
-        redirect = Column(String(256))
+        contributor_name = Column(VARBINARY(255))
+        redirect = Column(VARBINARY(255))
         minor = Column(Boolean)
-        comment = Column(String(256))
+        comment = Column(VARBINARY(255))
         length_bytes = Column(Integer)
         diff_bytes = Column(Integer)
-        timestamp = Column(DateTime)
+        timestamp = Column(Integer)
         deleted = Column(Boolean)
         
         def __init__(self, *args, **kwargs):
