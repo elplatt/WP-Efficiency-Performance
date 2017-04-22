@@ -139,7 +139,7 @@ class Rating(Base):
     project_name = Column(String(255))
     project_id = Column(Integer)
     timestamp = Column(Integer)
-    action = Column(String(256))
+    action = Column(String(32))
     article_name = Column(VARBINARY(255))
     talk_name = Column(VARBINARY(255))
     old_quality = Column(String(32))
