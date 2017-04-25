@@ -151,3 +151,4 @@ class Rating(Base):
     new_article_url = Column(String(512))
     article_id = Column(Integer)
     talk_id = Column(Integer)
+    added_ga = Column(Boolean)
