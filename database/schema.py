@@ -82,8 +82,8 @@ class ArticleContributor (Base):
     row_id = Column(Integer, primary_key=True)
     contributor_id = Column(Integer)
     article_id = Column(Integer)
-    first_edit = Column(DateTime)
-    last_edit = Column(DateTime)
+    first_edit = Column(Integer)
+    last_edit = Column(Integer)
 
 def clean_revision(datum):
     if datum["contributor_id"] == '':
