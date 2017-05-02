@@ -10,29 +10,24 @@ disjoint_edges = {
 class TestBFS(unittest.TestCase):
 
     def test_base(self):
-        distances, component = get_distances_bfs(no_edges,0)
+        distances = get_distances_bfs(no_edges,0)
         self.assertEqual(distances,{0:0})
-        self.assertEqual(component, hash(frozenset([0])))
 
     def test_tree_root(self):
-        distances, component = get_distances_bfs(tree_edges,0)
+        distances = get_distances_bfs(tree_edges,0)
         self.assertEqual(distances,{0:0,1:1,2:1,3:2,4:2,5:2,6:2})
-        self.assertEqual(component, hash(frozenset([0,1,2,3,4,5,6])))
 
     def test_tree_mid(self):
-        distances, component = get_distances_bfs(tree_edges,2)
+        distances = get_distances_bfs(tree_edges,2)
         self.assertEqual(distances,{2:0,5:1,6:1})
-        self.assertEqual(component, hash(frozenset([2,5,6])))
 
     def test_disjoint_left(self):
-        distances, component = get_distances_bfs(disjoint_edges,0)
+        distances = get_distances_bfs(disjoint_edges,0)
         self.assertEqual(distances,{0:0,1:1,2:1})
-        self.assertEqual(component, hash(frozenset([0,1,2])))        
 
     def test_disjoint_right(self):
-        distances, component = get_distances_bfs(disjoint_edges,3)
+        distances = get_distances_bfs(disjoint_edges,3)
         self.assertEqual(distances,{3:0,4:1,5:1})
-        self.assertEqual(component, hash(frozenset([3,4,5])))        
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,7 +2,7 @@ import collections
 
 def get_distances_bfs(edges_from, source):
     '''Get all distances from `source` to reachable nodes.
-        Returns (distances, component_id)'''
+        Returns distances'''
     # Store pending nodes in two ways:
     # deque to keep order
     # set to identify previously pending nodes
@@ -29,4 +29,4 @@ def get_distances_bfs(edges_from, source):
             distances[v] = front_distance
         to_visit.extend(list(delta))
         to_visit_set = to_visit_set | delta_set
-    return (distances, hash(frozenset(distances.iterkeys())))
+    return distances
