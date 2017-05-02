@@ -152,3 +152,4 @@ class Rating(Base):
     article_id = Column(Integer)
     talk_id = Column(Integer)
     added_ga = Column(Boolean)
+    first_gf = Column(Boolean)
