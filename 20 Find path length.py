@@ -26,14 +26,18 @@ num_cores = 11
 
 # In[ ]:
 
-def run_bfs(proc_id, edges_from, source_q, return_q, log=None):
-    while not source_q.empty():
-        try:
-            source = source_q.get(True, 1.0)
-            distances = network.bfs.get_distances_bfs(edges_from, source)
-            return_q.put((source,distances))
-        except Empty:
-            continue
+def run_bfs(proc_id, edges_from, source_q, return_q, error_q, log=None):
+    try:
+        while not source_q.empty():
+            try:
+                source = source_q.get(True, 1.0)
+                distances = network.bfs.get_distances_bfs(edges_from, source)
+                return_q.put((source,distances))
+            except Empty:
+                continue
+    except:
+        error_q.put(traceback.format_exc())
+        raise
 
 
 # In[ ]:
@@ -71,11 +75,12 @@ try:
                 done_q = Queue()
                 return_q = Queue()
                 source_q = Queue()
+                error_q = Queue()
                 [source_q.put(s) for s in all_nodes]
                 # Distribute to workers
                 workers = []
                 for i in range(num_cores):
-                    args=(i, edges_from, source_q, return_q)
+                    args=(i, edges_from, source_q, return_q, error_q)
                     p = Process(target=run_bfs, args=args)
                     p.start()
                     workers.append(p)
@@ -85,6 +90,9 @@ try:
                     try:
                         source, distances = return_q.get(True, 1.0)
                     except Empty:
+                        if error_q.qsize() > 0:
+                            log.error(error_q.get())
+                            raise KeyboardInterrupt
                         time.sleep(10.0)
                         continue
                     for target, distance in distances.iteritems():
@@ -108,10 +116,16 @@ try:
                 f_out.flush()
                 log.info("  Project %d complete" % project_id)
                 [p.terminate for p in workers]
+                workers = []
         log.info("Script complete")
 except KeyboardInterrupt:
     log.info("Keyboard interrupt")
+    try:
+        [p.terminate for p in workers]
+    except:
+        pass
     raise
+    
 
 
 # In[ ]:
