@@ -30,3 +30,25 @@ def get_distances_bfs(edges_from, source):
         to_visit.extend(list(delta))
         to_visit_set = to_visit_set | delta_set
     return distances
+
+def sample_sources_stratified(edges_from, N, M):
+    '''Create N sources in each of M out-degree strata.'''
+    # Create list of all nodes and degrees
+    node_out_degree = {}
+    for source, targets in edges_from.iteritems():
+        node_out_degree[source] = len(targets)
+        for target in targets:
+            node_out_degree[target] = node_out_degree.get(target, 0)
+    # Sort nodes by degrees
+    nodes_out = sorted(node_out_degree.items(), key=lambda x: x[1])
+    # Sample within strata
+    count = len(nodes_out)
+    step = float(count) / float(M)
+    source_samples = list()
+    last = 0
+    for m in range(M):
+        next = int(round((m+1)*step))
+        for i in range(N):
+            source_samples.append(random.choice(nodes_out[last:next])[0])
+        last = next
+    return source_samples
