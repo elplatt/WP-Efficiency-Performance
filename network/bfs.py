@@ -1,4 +1,5 @@
 import collections
+import random
 
 def get_distances_bfs(edges_from, source):
     '''Get all distances from `source` to reachable nodes.
