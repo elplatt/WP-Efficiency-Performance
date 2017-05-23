@@ -16,3 +16,4 @@ summary(m_eff_in)
 
 m_eff_out = lm(log(a_efficiency) ~ log(out_degree_skew) + log(mean_editors) + log(article_count)  + log(contributor_count) + log(revision_count) + first_assessment + mean_article_age, data=df)
 summary(m_eff_out)
+coefplot(m_eff_out,mar=c(1,6,6,1),main="A-Efficiency")

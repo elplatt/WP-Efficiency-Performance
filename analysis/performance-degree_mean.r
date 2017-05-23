@@ -13,3 +13,4 @@ summary(m_con)
 
 m_perf = lm(log(performance) ~ log(degree_mean) + log(mean_editors) + log(article_count)  + log(contributor_count) + log(revision_count) + first_assessment + mean_article_age, data=df)
 summary(m_perf)
+coefplot(m_perf,mar=c(1,6,6,1),main="Performance")
