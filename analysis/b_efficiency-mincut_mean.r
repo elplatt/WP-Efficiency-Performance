@@ -5,6 +5,7 @@ vars <- c("flow_mean", "degree_mean", "N_b", "Delta_b", "mean_editors", "article
 
 df <- combined[vars]
 df <- filter(df, N_b > 0 & Delta_b > 0)
+df <- filter(df, flow_mean > 0)
 df$b_efficiency = df$Delta_b / df$N_b
 df$b_efficiency = df$b_efficiency / mean(df$b_efficiency)
 

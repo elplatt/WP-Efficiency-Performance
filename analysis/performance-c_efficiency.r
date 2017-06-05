@@ -1,5 +1,6 @@
 require(readr)
 require(dplyr)
+require(arm)
 
 combined <- read_csv("~/WP-Efficiency-Performance/output/26_combine_data/2017-05-03 09:38:16 40d9996/combined.csv")
 vars <- c("Delta_c", "N_c", "to_ga", "to_fa", "article_count", "contributor_count", "first_assessment", "mean_article_age", "revision_count")
@@ -16,3 +17,5 @@ summary(m_con)
 
 m_perf = lm(log(performance) ~ log(c_efficiency) + log(article_count)  + log(contributor_count) + log(revision_count) + first_assessment + mean_article_age, data=df)
 summary(m_perf)
+coefplot(m_perf,mar=c(1,6,6,1),main="Performance")
+

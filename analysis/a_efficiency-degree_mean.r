@@ -8,7 +8,7 @@ df <- filter(df, N_a > 0 & Delta_a > 0)
 df$a_efficiency = df$Delta_a / df$N_a
 df$a_efficiency = df$a_efficiency / mean(df$a_efficiency)
 
-m_con = lm(log(a_efficiency) ~ log(article_count)  + log(mean_editors) + log(contributor_count) + log(revision_count) + first_assessment + mean_article_age, data=df)
+m_con = lm(log(a_efficiency) ~ log(mean_editors) + log(article_count) + log(contributor_count) + log(revision_count) + first_assessment + mean_article_age, data=df)
 summary(m_con)
 
 m_eff = lm(log(a_efficiency) ~ log(degree_mean) + log(mean_editors) + log(article_count)  + log(contributor_count) + log(revision_count) + first_assessment + mean_article_age, data=df)
