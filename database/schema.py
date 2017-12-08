@@ -124,6 +124,7 @@ def revision_table(project_name):
         diff_bytes = Column(Integer)
         timestamp = Column(Integer)
         deleted = Column(Boolean)
+        important = Column(Boolean)
         
         def __init__(self, *args, **kwargs):
             clean_revision(kwargs)
