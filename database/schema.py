@@ -147,6 +147,7 @@ class Rating(Base):
     new_quality = Column(String(32))
     old_importance = Column(String(32))
     new_importance = Column(String(32))
+    important = Column(Boolean)
     new_article_name = Column(VARBINARY(255))
     old_article_url = Column(String(512))
     new_article_url = Column(String(512))
