@@ -259,7 +259,7 @@ Output
 
 ### 18 Find min-cut
 Finds the mean minimum cut for a specified subset of networks. Uses sampling
-stratified by degree.
+stratified by degree. Uses multiprocessing to take advantage of multiple cores.
 
 Input: `d-coeditor.mp` for d in project_id
 
@@ -275,3 +275,74 @@ Input
 
 Output
 * `n-degree.csv` for n in project_id
+
+
+### 20 Find path length
+Find mean path length for a specified subset of networks. Uses sampling
+stratified by degree. Uses multiprocessing to take advantage of multiple cores.
+Also calculates fraction of pairs with a connected path between them.
+
+Input:
+* `data/projects.json`
+* `n-coeditor.mp` for n in project_id
+
+Output:
+* `n-path_length.csv` for n in project_id
+* `reachability.csv`
+
+### 20.1 Plot reachability
+Create plots and summary statistics about coeditor network reachability.
+
+Input: `reachability.csv`
+
+
+### 21 Plot degree
+Generate plots of coeditor network degree distributions. Also output statistics
+about coeditor network degree.
+
+Input:
+* `data/project.json`
+* `n-degree.csv` for n in project_id
+* `efficiency.csv`
+* `fa_ga_transitions.csv`
+
+Output: `degree_stats.csv`
+
+### 22 Plot min-cut
+Generate plots of coeditor network min-cuts. Also output statistics about
+network min-cuts.
+
+Input: `d-flows-sampled.csv`
+
+Output: `mincut_stats.csv`
+
+
+### 23 Plot path
+Generate plots of coeditor network path length info. Also output statistics
+about network path lengths.
+
+Input:
+* `data/projects.json`
+* `n-path_length.csv` for n in project_id
+
+Output: `path_stats.csv`
+
+
+### 24 Find controls
+Calculate several variables used as controls in the analysis.
+
+Input:
+* `data/projects.json`
+* database tables: `ratings`, `n-revisions` for n in project_id
+
+Output: `controls.csv`
+
+
+### 24b Find Diversity
+Calculate editor diversity as entropy over user contributions.
+
+Input:
+* `data/projects.json`
+* database: `article_name_id`, `ratings`, `n_revisions` for n in project_id
+
+Output: `diversity.csv`
