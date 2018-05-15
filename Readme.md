@@ -87,7 +87,7 @@ Input
 * `importance.utf8.tsv`
 
 Output
-* databaase: `ratings` table, `important` column
+* database: `ratings` table, `important` column
 
 ### 06 Load assessment history
 Read scraped assessments from TSV files and store in database.
@@ -176,34 +176,102 @@ Output
 * `efficiency.csv`
 * `unknownn.csv`
 
-### TODO below
 
+### 11 Find performance
+Measure performance by fraction of good/featured articles.
 
-### 03 Load articles project names
-Populates the `article_project_names` database table.  
 Input
-
-* `data/articles-projects.json` (utf-8)
+* `data/projects.json`
+* database `ratings` table
 
 Output
-* table: `article_project_names`
+* fa_ga_transitions.csv
 
-### 04 Load articles async
-Look up article ids and populate `articles_projects` table in the database.
+
+### 11b Find bga performance
+Find performance based fraction of B-level articles that reach good or
+featured status.
 
 Input
-* Wikipedia API
-* `data/articles-projects.json` (utf-8)
+* `data/projects.json`
+* `https://ores.wikimedia.org/scores/enwiki/`
+* database `ratings` table
 
 Output
-* table: `articles_projects`
+* `n-ga.csv` for n in project_id
+* `project_bga.csv`
 
-### 05 Create project tables
-Create a revision table for each project.
+
+### 11c Find performance imp
+Measure performance by fraction of good/featured articles. Only consider
+high and top importance articles.
 
 Input
-* `data/articles-projects.json` (utf-8)
+* `data/projects.json`
+* database `ratings` table
 
-### 08 Create coeditor
-Create coeditor network.
+Output
+* `fa_ga_transitions.csv`
 
+### 12 Plot efficiency
+Create figures visualizing project efficiency.
+
+
+### 13 Plot performance
+Create figures visualizing project performance.
+
+
+### 14 Plot efficiency performance.
+Create figures visualizing the relationship between efficiency and performance.
+
+
+### 16 Create coeditor tables
+Creates database tables for coeditor networks. Not used in the final pipeline
+because networks were stored in msgpack format instead.
+
+Input: `data/projects.json`
+
+Output: database tables `n_coeditor` for n in project_id
+
+
+### 17 Create coeditor
+Creates a coeditor network based on revision history.
+
+Input
+* `data/projects.json`
+* database table `n_revisions` for n in project_id
+
+Output
+* `n-coeditor.mp` for n in project_id (msgpack)
+** [ [source1, [target1, targt2, ...]], [source2, [...]], ... ]
+
+
+### 17.1 Coeditor stats
+Calculates statistics about coeditor networks.
+
+Input
+* `data/projects.json`
+* `n-coeditor.m` for n in project_id
+
+Output
+* `coeditor_stats.tsv`
+
+
+### 18 Find min-cut
+Finds the mean minimum cut for a specified subset of networks. Uses sampling
+stratified by degree.
+
+Input: `d-coeditor.mp` for d in project_id
+
+Output: `d-flows-sampled.csv`
+
+
+### 19 Find degree
+Find degree distributions for coeditor networks.
+
+Input
+* `data/projects.json`
+* `n-coeditor.mp` for n in project_id
+
+Output
+* `n-degree.csv` for n in project_id
