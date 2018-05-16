@@ -3,7 +3,6 @@ venv
 archive
 dromdata
 scratch*
-X*
 .DS_Store
 *.pyc
 *.log
