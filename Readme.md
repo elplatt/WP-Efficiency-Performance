@@ -346,3 +346,69 @@ Input:
 * database: `article_name_id`, `ratings`, `n_revisions` for n in project_id
 
 Output: `diversity.csv`
+
+
+### 24c Find Project Similarity / 24ci Find Imp Project Similarity
+Find mean jaccard similarity between projects, based on article membership.
+The 24ci script only considers high and top importance.
+
+Input:
+* `data/projects.json`
+* `articles_projects.m`
+
+Output:
+* `similarity.csv`
+* `similarity_mean.csv`
+
+
+### 24d Find Article Talk / 24di Find Imp Article Talk
+Find the number edits to articles and talk pages within each project.
+
+Input:
+* `data/projects.json`
+* database: `ratings`, `n_revisions` for n in project_id
+
+Output: `article_talk.csv
+
+
+### 24i Find imp controls
+Find quantities used as controls, considering only high and top importance
+articles.
+
+Input:
+* `data/projects.json`
+* database tables: `ratings`, `n_revisions` for n in project_id
+
+Output: `controls.csv`
+
+
+### 25 Plot controls
+Plot figures summarizing the control variables.
+
+Input:
+* `data/projects.json`
+* `efficiency.csv`
+* datbase: `ratings`, `n_revisions` for n in project_id
+
+### 26 Combine data / 26i Combine Data Imp / 26j Combine Data Indep Imp
+Generate a single csv with all varaibles, one line per project. 26i uses only
+articles with high/top importance. 26j uses high/top importance articles for
+independent variables and all articles for dependent variables.
+
+Input:
+* `data/projects.json`
+* `fa_ga_transitions.csv`
+* `efficiency.csv`
+* `controls.csv`
+* `similarity_mean.csv`
+* `article_talk.csv`
+* `n-degree.csv` for n in project_id
+* `mincut_stats.csv`
+
+
+### 27 Plot Regression
+Generate plots of the regression output. The regression is performed in R using
+the `combined.csv` file and then written to `regressions.csv` which is used
+by this script.
+
+Input: `analysis/regressions.csv`
