@@ -1,7 +1,5 @@
 ## Notebooks
 
-### 00 Validate mincut sampling
-
 ### 00 Create database
 Creates database as defined in `database/schema.py`.
 
