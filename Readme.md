@@ -8,7 +8,7 @@ These scripts are responsible for the following:
 Most of the scripts are jupyter notebooks. There are also sql scripts for
 updating and indexing database tables, and R scripts for performing OLS
 regressions. The main pipeline is visualized
-[here](docs/pipeline.png)
+[here](docs/pipeline.png).
 
 ### A note on database indexes
 Many of the scripts rely on a MySQL database. Most of the database queries
